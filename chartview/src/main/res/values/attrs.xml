@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="ChartView">
+
+        <attr name="axis_line_width" format="dimension" />
+        <attr name="axis_line_color" format="color" />
+
+        <attr name="point_size" format="dimension" />
+        <attr name="point_color" format="color" />
+        <attr name="draw_point" format="boolean" />
+
+        <attr name="line_width" format="dimension" />
+        <attr name="line_color" format="color" />
+
+        <attr name="draw_horizontal_axis_text" format="boolean" />
+        <attr name="horizontal_axis_text_color" format="color" />
+        <attr name="horizontal_axis_text_size" format="dimension" />
+        <attr name="horizontal_axis_text_width" format="dimension" />
+        <attr name="horizontal_reserved_gap" format="dimension" />
+
+        <attr name="draw_vertical_axis_text" format="boolean" />
+        <attr name="vertical_axis_text_color" format="color" />
+        <attr name="vertical_axis_text_size" format="dimension" />
+        <attr name="vertical_axis_text_width" format="dimension" />
+        <attr name="vertical_reserved_gap" format="dimension" />
+
+        <attr name="gap_with_axis_and_text" format="dimension" />
+
+        <attr name="arrow_size" format="dimension" />
+        <attr name="draw_arrow" format="boolean" />
+
+        <attr name="draw_align_line_for_x" format="boolean" />
+        <attr name="align_x_line_color" format="color" />
+        <attr name="align_x_line_width" format="dimension" />
+        <attr name="align_x_line_type" format="enum">
+            <enum name="solid" value="0" />
+            <enum name="dashed" value="1" />
+        </attr>
+        <attr name="draw_align_line_for_y" format="boolean" />
+        <attr name="align_y_line_color" format="color" />
+        <attr name="align_y_line_width" format="dimension" />
+        <attr name="align_y_line_type" format="enum">
+            <enum name="solid" value="0" />
+            <enum name="dashed" value="1" />
+        </attr>
+
+        <attr name="draw_grid_line" format="boolean" />
+        <attr name="grid_line_width" format="dimension" />
+        <attr name="grid_line_color" format="color" />
+        <attr name="grid_line_type" format="enum">
+            <enum name="solid" value="0" />
+            <enum name="dashed" value="1" />
+        </attr>
+
+
+    </declare-styleable>
+</resources>

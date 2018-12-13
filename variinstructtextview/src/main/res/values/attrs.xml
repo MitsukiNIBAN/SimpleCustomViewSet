@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="VariInstructTextView">
+        <attr name="arrow_size" format="dimension" />
+        <attr name="up_or_down" format="enum">
+            <enum name="up" value="0" />
+            <enum name="down" value="1" />
+        </attr>
+        <attr name="up_color" format="color" />
+        <attr name="down_color" format="color" />
+        <attr name="arrow_padding" format="dimension" />
+
+        <attr name="extend_text" format="string" />
+        <attr name="extend_text_size" format="dimension" />
+        <attr name="extend_text_color" format="color" />
+
+        <attr name="instruct_enable" format="boolean" />
+    </declare-styleable>
+</resources>
