@@ -51,7 +51,7 @@ public class ChartView extends View {
 
     //初始化画笔等数据
     private void init(Context context) {
-        mChart = FalseDataProvider.getChartBean();
+//        mChart = FalseDataProvider.getChartBean();
         if (null == mControlPointList) mControlPointList = new ArrayList<>();
         if (null == mPointList) mPointList = new ArrayList<>();
     }
@@ -100,7 +100,7 @@ public class ChartView extends View {
         //位置 x:纵轴文字宽度 - 轴离文字的距离 y:纵轴高度 - 单位长度
         for (int i = 0; i < mChart.getVeriCount(); i++) {
             if (mChartViewDelegate.isDrawVerticalAxisText()) {
-                canvas.drawText((mChart.getVerticalUnitValue() * i) + mChart.getUnit(),
+                canvas.drawText(((int) Math.floor(mChart.getVerticalUnitValue() * i)) + mChart.getUnit(),
                         mChartViewDelegate.getVerticalAxisTextWidth() - mChartViewDelegate.getGapWithAxisAndText(),
                         mVerticalAxisMinPosition - (i * mVerticalAxisTextInterval),
                         mChartViewDelegate.getVerticalAxisTextPaint());
@@ -221,6 +221,7 @@ public class ChartView extends View {
     /**********************************************************************************************/
     //绘制三次贝塞尔曲线以及坐标点
     private void onDrawCubicBezierCurve(Canvas canvas) {
+        if (mPointList.size() < 1) return;
         Path mPath = new Path();
         mPath.reset();
         mPath.moveTo((float) mPointList.get(0).x, (float) mPointList.get(0).y);
@@ -341,6 +342,12 @@ public class ChartView extends View {
 
     public void onChangeGridLineEnable() {
         mChartViewDelegate.setDrawGridLine(!mChartViewDelegate.isDrawGridLine());
+        invalidate();
+    }
+
+    public void setChart(ChartBean mChart) {
+        this.mChart = mChart;
+        requestLayout();
         invalidate();
     }
 }

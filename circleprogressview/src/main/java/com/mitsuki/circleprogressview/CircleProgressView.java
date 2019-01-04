@@ -57,7 +57,6 @@ public class CircleProgressView extends View {
 
         mCircleRegion = Math.min(width, height) - (2 * mCircleProgressDelegate.getCirclePadding());
 
-
         onDrawBoardCircle(canvas);
         onDrawArcLineEndPoint(canvas);
         onDrawText(canvas);
@@ -144,5 +143,13 @@ public class CircleProgressView extends View {
         //要考虑baseline到文字底部的距离，具体参考https://www.jianshu.com/p/814858d85a74
         //此处rect.bottom * 2是方便外部/2的计算
         return rect.height() - 2 * rect.bottom;
+    }
+
+    public void setPercent(int value) {
+        if (value >= 0
+                && value <= 100) {
+            mCircleProgressDelegate.setPercent(value);
+            invalidate();
+        }
     }
 }

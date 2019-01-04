@@ -6,14 +6,33 @@
     android:layout_height="match_parent"
     android:background="#fff"
     android:gravity="center"
-    android:orientation="vertical"
+    android:orientation="horizontal"
     tools:context=".MainActivity">
 
+    <!--<LinearLayout-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:layout_weight="1"-->
+    <!--android:gravity="center">-->
+
+    <!--<com.mitsuki.variinstructtextview.VariInstructTextView-->
+    <!--android:id="@+id/content2"-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:padding="0dp"-->
+    <!--android:text="asdfasdfasdfasdfasdfasdfasdf"-->
+    <!--android:textSize="20sp"-->
+    <!--app:extend_text="" />-->
+
+    <!--</LinearLayout>-->
 
     <com.mitsuki.variinstructtextview.VariInstructTextView
-        android:id="@+id/content"
-        android:layout_width="wrap_content"
+        android:id="@+id/content2"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_weight="1"
         android:text=""
-        android:textSize="20sp"/>
+        android:textSize="20sp"
+        app:arrow_padding="0dp" />
+
 </LinearLayout>

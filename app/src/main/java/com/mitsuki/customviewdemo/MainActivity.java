@@ -18,10 +18,10 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         view = findViewById(R.id.content);
 
-        Spannable t1 = new SpannableStringBuilder("99" + "%");
-        t1.setSpan(new AbsoluteSizeSpan(160), 0, "99".length(), Spannable.SPAN_INCLUSIVE_INCLUSIVE);
-        view.setText(t1);
-
+//        Spannable t1 = new SpannableStringBuilder("99" + "%");
+//        t1.setSpan(new AbsoluteSizeSpan(160), 0, "99".length(), Spannable.SPAN_INCLUSIVE_INCLUSIVE);
+//        view.setText(t1);
+//
 
 
     }

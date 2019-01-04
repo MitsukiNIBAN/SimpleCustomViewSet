@@ -210,4 +210,10 @@ public class CircleProgressDelegate {
     public float getTextPadding() {
         return mTextPadding;
     }
+
+    /**********************************************************************************************/
+
+    public void setPercent(int percent) {
+        this.percent = percent;
+    }
 }

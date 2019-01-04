@@ -6,8 +6,7 @@
             <enum name="up" value="0" />
             <enum name="down" value="1" />
         </attr>
-        <attr name="up_color" format="color" />
-        <attr name="down_color" format="color" />
+        <attr name="arrow_color" format="color" />
         <attr name="arrow_padding" format="dimension" />
 
         <attr name="extend_text" format="string" />

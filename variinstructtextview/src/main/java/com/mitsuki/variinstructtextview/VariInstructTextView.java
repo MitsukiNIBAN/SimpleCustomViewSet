@@ -7,6 +7,7 @@ import android.graphics.Paint;
 import android.graphics.Rect;
 import android.text.TextUtils;
 import android.util.AttributeSet;
+import android.util.DisplayMetrics;
 import android.widget.TextView;
 
 @SuppressLint("AppCompatCustomView")
@@ -15,6 +16,12 @@ public class VariInstructTextView extends TextView {
     //view 的大小
     private int width;
     private int height;
+
+    private int tempPadding;
+    private int originalPaddingRight;
+    private int originalPaddingLeft;
+    private int originalPaddingTop;
+    private int originalPaddingBottom;
 
     private VariInstructDelegate mVariInstructDelegate;
 
@@ -25,6 +32,11 @@ public class VariInstructTextView extends TextView {
     public VariInstructTextView(Context context, AttributeSet attrs) {
         super(context, attrs);
         mVariInstructDelegate = new VariInstructDelegate(context, attrs);
+
+        originalPaddingRight = getPaddingRight();
+        originalPaddingLeft = getPaddingLeft();
+        originalPaddingTop = getPaddingTop();
+        originalPaddingBottom = getPaddingBottom();
     }
 
     @Override
@@ -41,6 +53,12 @@ public class VariInstructTextView extends TextView {
         //不需要时直接return
         if (!mVariInstructDelegate.isEnable()) return;
 
+        DisplayMetrics dm = getResources().getDisplayMetrics();
+        int paddingLeft = getPaddingLeft();
+        int paddingTop = getPaddingTop();
+        int paddingRight = getPaddingRight();
+        int paddingBottom = getPaddingBottom();
+
         //根据父类计算的高度和宽度，重新加算上增加内容的高宽
         int w = getMeasuredWidth();
         int h = getMeasuredHeight();
@@ -53,19 +71,36 @@ public class VariInstructTextView extends TextView {
                 h = (int) Math.ceil(h - tempTextHeight + mVariInstructDelegate.getArrowSize());
             }
         }
-        w += mVariInstructDelegate.getArrowPadding();
-        w += mVariInstructDelegate.getArrowSize() / 3;
+
+        int arrowSpace = 0;
+
+        arrowSpace += mVariInstructDelegate.getArrowPadding();
+        arrowSpace += mVariInstructDelegate.getArrowSize() / 3;
         if (!TextUtils.isEmpty(mVariInstructDelegate.getExtendText())) {
-            w += mVariInstructDelegate.getArrowPadding();
-            w += getTextWidth(mVariInstructDelegate.getExtendTextPaint(), mVariInstructDelegate.getExtendText().toString());
+            arrowSpace += mVariInstructDelegate.getArrowPadding();
+            arrowSpace += getTextWidth(mVariInstructDelegate.getExtendTextPaint(), mVariInstructDelegate.getExtendText().toString());
         }
 
-        setMeasuredDimension(w, h);
+        //当宽度超过屏幕时
+        if (w > dm.widthPixels) {
+            tempPadding = arrowSpace;
+        } else {
+            tempPadding = w + arrowSpace - dm.widthPixels;
+        }
+        if (tempPadding > 0) {
+            //保证不会二次添加padding空间
+            if (getPaddingRight() == originalPaddingRight)
+                super.setPadding(paddingLeft, paddingTop, paddingRight + tempPadding, paddingBottom);//腾出padding空间用于绘制箭头
+        } else {
+            tempPadding = 0;
+            setMeasuredDimension(w, h);
+        }
     }
 
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
+
         //不需要时直接return
         if (!mVariInstructDelegate.isEnable()) return;
 
@@ -85,14 +120,14 @@ public class VariInstructTextView extends TextView {
 
             canvas.drawText(mVariInstructDelegate.getExtendText(),
                     0, mVariInstructDelegate.getExtendText().length(),
-                    width - getPaddingRight() - extendTextWidth,
+                    width - originalPaddingRight - extendTextWidth,
                     getPaddingTop() + getTextHeight(paint, mVariInstructDelegate.getExtendText().toString()) + tempPadding,
                     paint);
         }
 
         //绘制箭头标志
         canvas.drawPath(mVariInstructDelegate.getArrow(
-                (int) (width - getPaddingRight() - extendTextWidth
+                (int) (width - originalPaddingRight - extendTextWidth
                         - mVariInstructDelegate.getArrowPadding() / 2
                         - mVariInstructDelegate.getArrowSize() / 3),
                 (int) (height - tempBaseLine - mVariInstructDelegate.getArrowSize())
@@ -141,4 +176,12 @@ public class VariInstructTextView extends TextView {
         }
     }
 
+    @Override
+    public void setPadding(int left, int top, int right, int bottom) {
+        super.setPadding(left, top, right, bottom);
+        originalPaddingRight = right;
+        originalPaddingLeft = left;
+        originalPaddingTop = top;
+        originalPaddingBottom = bottom;
+    }
 }

@@ -15,8 +15,7 @@ public class VariInstructDelegate {
 
     private float mArrowSize; //箭头大小[高度]。默认文字的高度
     private int isUpOrDown; //0 : up  1 : down
-    private int mUpColor;
-    private int mDownColor;
+    private int mArrowColor;
 
     private float mArrowPadding;
 
@@ -36,8 +35,7 @@ public class VariInstructDelegate {
         mArrowSize = array.getDimension(R.styleable.VariInstructTextView_arrow_size, -1);
         isUpOrDown = array.getInt(R.styleable.VariInstructTextView_up_or_down, 0);
 
-        mUpColor = array.getColor(R.styleable.VariInstructTextView_up_color, DEFAULT_COLOR);
-        mDownColor = array.getColor(R.styleable.VariInstructTextView_down_color, DEFAULT_COLOR);
+        mArrowColor = array.getColor(R.styleable.VariInstructTextView_arrow_color, DEFAULT_COLOR);
 
         mExtendText = array.getText(R.styleable.VariInstructTextView_extend_text);
         mExtendTextColor = array.getColor(R.styleable.VariInstructTextView_extend_text_color, -1);
@@ -53,7 +51,7 @@ public class VariInstructDelegate {
         mPaint.setAntiAlias(true);
 
         mPaint.setStyle(Paint.Style.FILL);
-        mPaint.setColor(isUpOrDown == 0 ? mUpColor : mDownColor);
+        mPaint.setColor(mArrowColor);
         return mPaint;
     }
 
@@ -62,9 +60,7 @@ public class VariInstructDelegate {
         mPaint.setAntiAlias(true);
 
         mPaint.setStyle(Paint.Style.FILL);
-        if (mExtendTextColor == -1) {
-            mPaint.setColor(isUpOrDown == 0 ? mUpColor : mDownColor);
-        } else {
+        if (mExtendTextColor != -1) {
             mPaint.setColor(mExtendTextColor);
         }
         mPaint.setTextSize(mExtendTextSize);

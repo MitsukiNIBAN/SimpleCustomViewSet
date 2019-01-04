@@ -3,7 +3,7 @@ package com.mitsuki.chartview;
 import java.util.LinkedHashMap;
 
 public class FalseDataProvider {
-    public static ChartBean getChartBean() {
+    static ChartBean getChartBean() {
         ChartBean mChart = new ChartBean();
         mChart.setVeriMax(1000);
         mChart.setUnit("㎡");

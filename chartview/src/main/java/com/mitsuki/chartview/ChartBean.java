@@ -13,9 +13,9 @@ import java.util.LinkedHashMap;
 public class ChartBean {
 
     private LinkedHashMap<String, Double> mPointMap;
-    private String unit;
-    private int mVeriCount;
-    private double mVeriMax;
+    private String unit;  // 单位
+    private int mVeriCount;  //纵坐标刻度个数
+    private double mVeriMax;  //纵坐标最大值
 
     public ChartBean() {
         this.mPointMap = new LinkedHashMap<>();
