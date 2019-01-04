@@ -134,6 +134,15 @@ public class VariInstructTextView extends TextView {
                 mVariInstructDelegate.getArrowPaint());
     }
 
+    @Override
+    public void setPadding(int left, int top, int right, int bottom) {
+        super.setPadding(left, top, right, bottom);
+        originalPaddingRight = right;
+        originalPaddingLeft = left;
+        originalPaddingTop = top;
+        originalPaddingBottom = bottom;
+    }
+
 
     private int getTextHeight(Paint paint, String str) {
         //计算的宽度 与字体的大小和长度有关 用画笔来测量
@@ -175,12 +184,13 @@ public class VariInstructTextView extends TextView {
         }
     }
 
-    @Override
-    public void setPadding(int left, int top, int right, int bottom) {
-        super.setPadding(left, top, right, bottom);
-        originalPaddingRight = right;
-        originalPaddingLeft = left;
-        originalPaddingTop = top;
-        originalPaddingBottom = bottom;
+    public void setArrowColor(int color) {
+        mVariInstructDelegate.setArrowColor(color);
     }
+
+    public void setExtendTextColor(int mExtendTextColor) {
+        mVariInstructDelegate.setExtendTextColor(mExtendTextColor);
+    }
+
+
 }

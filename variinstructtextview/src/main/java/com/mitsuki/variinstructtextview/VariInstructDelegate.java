@@ -187,4 +187,12 @@ public class VariInstructDelegate {
     public void setIsUpOrDown(int isUpOrDown) {
         this.isUpOrDown = isUpOrDown;
     }
+
+    public void setArrowColor(int mArrowColor) {
+        this.mArrowColor = mArrowColor;
+    }
+
+    public void setExtendTextColor(int mExtendTextColor) {
+        this.mExtendTextColor = mExtendTextColor;
+    }
 }
