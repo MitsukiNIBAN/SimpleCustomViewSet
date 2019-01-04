@@ -80,20 +80,26 @@ public class VariInstructTextView extends TextView {
             arrowSpace += mVariInstructDelegate.getArrowPadding();
             arrowSpace += getTextWidth(mVariInstructDelegate.getExtendTextPaint(), mVariInstructDelegate.getExtendText().toString());
         }
-        int tempPadding;
-        //当宽度超过屏幕时
-        if (w > dm.widthPixels) {
-            tempPadding = arrowSpace;
-        } else {
-            tempPadding = w + arrowSpace - dm.widthPixels;
-        }
-        if (tempPadding > 0) {
-            //保证不会二次添加padding空间
-            if (getPaddingRight() == originalPaddingRight)
-                super.setPadding(paddingLeft, paddingTop, paddingRight + tempPadding, paddingBottom);//腾出padding空间用于绘制箭头
-        } else {
-            setMeasuredDimension(w + arrowSpace, h);
-        }
+
+        //方式一、废弃，发现仍有不兼容之处
+//        int tempPadding;
+//        //当宽度超过屏幕时
+//        if (w > dm.widthPixels) {
+//            tempPadding = arrowSpace;
+//        } else {
+//            tempPadding = w + arrowSpace - dm.widthPixels;
+//        }
+//        if (tempPadding > 0) {
+//            //保证不会二次添加padding空间
+//            if (getPaddingRight() == originalPaddingRight)
+//                super.setPadding(paddingLeft, paddingTop, paddingRight + tempPadding, paddingBottom);//腾出padding空间用于绘制箭头
+//        } else {
+//            setMeasuredDimension(w + arrowSpace, h);
+//        }
+
+        //方式二、统一全部padding腾空间的方式
+        if (getPaddingRight() == originalPaddingRight)
+                super.setPadding(paddingLeft, paddingTop, paddingRight + arrowSpace, paddingBottom);//腾出padding空间用于绘制箭头
     }
 
     @Override

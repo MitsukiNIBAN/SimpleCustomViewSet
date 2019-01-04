@@ -9,42 +9,42 @@
     android:orientation="horizontal"
     tools:context=".MainActivity">
 
-    <!--<LinearLayout-->
-    <!--android:layout_width="match_parent"-->
-    <!--android:layout_height="wrap_content"-->
-    <!--android:layout_weight="1"-->
-    <!--android:gravity="center">-->
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:gravity="center">
+
+        <com.mitsuki.variinstructtextview.VariInstructTextView
+            android:id="@+id/content2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="0dp"
+            android:text="1111111111111111111111111111111111111111111111"
+            android:textSize="20sp"
+            app:extend_text="" />
+
+    </LinearLayout>
 
     <!--<com.mitsuki.variinstructtextview.VariInstructTextView-->
     <!--android:id="@+id/content2"-->
     <!--android:layout_width="wrap_content"-->
     <!--android:layout_height="wrap_content"-->
-    <!--android:padding="0dp"-->
-    <!--android:text="asdfasdfasdfasdfasdfasdfasdf"-->
+    <!--android:text="11111111"-->
     <!--android:textSize="20sp"-->
-    <!--app:extend_text="" />-->
-
-    <!--</LinearLayout>-->
-
-    <com.mitsuki.variinstructtextview.VariInstructTextView
-        android:id="@+id/content2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="111"
-        android:textSize="20sp"
-        app:arrow_padding="0dp" />
+    <!--app:arrow_padding="0dp" />-->
 
     <!--<com.mitsuki.variinstructtextview.VariInstructTextView-->
-        <!--android:id="@+id/monitor_param_value"-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:text="73UM/"-->
-        <!--android:textColor="@color/black"-->
-        <!--android:textSize="20sp"-->
-        <!--app:arrow_size="14sp"-->
-        <!--app:extend_text="-7%"-->
-        <!--app:extend_text_size="10sp"-->
-        <!--app:instruct_enable="true"-->
-        <!--app:up_or_down="down" />-->
+    <!--android:id="@+id/monitor_param_value"-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:text="73UM/"-->
+    <!--android:textColor="@color/black"-->
+    <!--android:textSize="20sp"-->
+    <!--app:arrow_size="14sp"-->
+    <!--app:extend_text="-7%"-->
+    <!--app:extend_text_size="10sp"-->
+    <!--app:instruct_enable="true"-->
+    <!--app:up_or_down="down" />-->
 
 </LinearLayout>
