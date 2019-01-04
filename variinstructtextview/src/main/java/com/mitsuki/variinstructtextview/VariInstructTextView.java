@@ -17,7 +17,7 @@ public class VariInstructTextView extends TextView {
     private int width;
     private int height;
 
-    private int tempPadding;
+    //    private int tempPadding;
     private int originalPaddingRight;
     private int originalPaddingLeft;
     private int originalPaddingTop;
@@ -80,7 +80,7 @@ public class VariInstructTextView extends TextView {
             arrowSpace += mVariInstructDelegate.getArrowPadding();
             arrowSpace += getTextWidth(mVariInstructDelegate.getExtendTextPaint(), mVariInstructDelegate.getExtendText().toString());
         }
-
+        int tempPadding;
         //当宽度超过屏幕时
         if (w > dm.widthPixels) {
             tempPadding = arrowSpace;
@@ -92,8 +92,7 @@ public class VariInstructTextView extends TextView {
             if (getPaddingRight() == originalPaddingRight)
                 super.setPadding(paddingLeft, paddingTop, paddingRight + tempPadding, paddingBottom);//腾出padding空间用于绘制箭头
         } else {
-            tempPadding = 0;
-            setMeasuredDimension(w, h);
+            setMeasuredDimension(w + arrowSpace, h);
         }
     }
 

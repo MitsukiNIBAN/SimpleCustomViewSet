@@ -28,11 +28,23 @@
 
     <com.mitsuki.variinstructtextview.VariInstructTextView
         android:id="@+id/content2"
-        android:layout_width="0dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:text=""
+        android:text="111"
         android:textSize="20sp"
         app:arrow_padding="0dp" />
+
+    <!--<com.mitsuki.variinstructtextview.VariInstructTextView-->
+        <!--android:id="@+id/monitor_param_value"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:text="73UM/"-->
+        <!--android:textColor="@color/black"-->
+        <!--android:textSize="20sp"-->
+        <!--app:arrow_size="14sp"-->
+        <!--app:extend_text="-7%"-->
+        <!--app:extend_text_size="10sp"-->
+        <!--app:instruct_enable="true"-->
+        <!--app:up_or_down="down" />-->
 
 </LinearLayout>
