@@ -1,8 +1,6 @@
-package com.mitsuki.falldownview.snow;
+package com.mitsuki.falldownview.rain;
 
 import android.content.Context;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -12,36 +10,33 @@ import android.util.AttributeSet;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
-import com.mitsuki.falldownview.R;
+import com.mitsuki.falldownview.snow.Snow;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class SnowSurfaceView extends SurfaceView implements SurfaceHolder.Callback, Runnable {
+public class RainSurfaceView extends SurfaceView implements SurfaceHolder.Callback, Runnable {
 
     private int width; // 宽度
     private int height;  //高度
 
-    private final int delay = 3;
-    private final int count = 32;
-
-    private Paint mPaint;  // 画笔
     private SurfaceHolder mSurfaceHolder;    // SurfaceHolder
     private Canvas mCanvas;
+    private Paint mPaint;  // 画笔
 
-    private List<Snow> mSnow;
-    private SnowPath snowPath;
+    private List<Rain> mRain;
 
+    private final int delay = 3;
+    private final int count = 64;
 
-    public SnowSurfaceView(Context context) {
+    public RainSurfaceView(Context context) {
         this(context, null);
     }
 
-    public SnowSurfaceView(Context context, AttributeSet attrs) {
+    public RainSurfaceView(Context context, AttributeSet attrs) {
         super(context, attrs);
         init();
-        mSnow = new ArrayList<>();
-        snowPath = new SnowSample();
+        mRain = new ArrayList<>();
     }
 
     @Override
@@ -62,42 +57,35 @@ public class SnowSurfaceView extends SurfaceView implements SurfaceHolder.Callba
         //画笔
         mPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
         mPaint.setColor(Color.parseColor("#ffffff"));
-        mPaint.setStyle(Paint.Style.FILL);
+        mPaint.setStyle(Paint.Style.STROKE);
 
         setZOrderOnTop(true);
         mSurfaceHolder.setFormat(PixelFormat.TRANSLUCENT);
     }
 
-    /**********************************************************************************************/
-
     @Override
-    public void surfaceCreated(SurfaceHolder holder) {//创建
-        //添加雪
+    public void surfaceCreated(SurfaceHolder surfaceHolder) {
         for (int i = 0; i < count; i++) {
-            mSnow.add(new Snow.Builder(snowPath, width, height)
-                    .setFastest(8)
-                    .setBiggest(30)
-                    .setSway(8, 5)
+            mRain.add(new Rain.Builder(width, height)
+                    .setWidth(4)
+                    .setLength(100, 200)
+                    .setSpeed(24)
+                    .setTransparent(24)
                     .build());
         }
-
         //绘制线程
         getHandler().postDelayed(this, delay);
     }
 
-
     @Override
-    public void surfaceChanged(SurfaceHolder holder, int format, int width, int height) {//改变
+    public void surfaceChanged(SurfaceHolder surfaceHolder, int i, int i1, int i2) {
 
     }
 
     @Override
-    public void surfaceDestroyed(SurfaceHolder holder) {//销毁
+    public void surfaceDestroyed(SurfaceHolder surfaceHolder) {
         getHandler().removeCallbacks(this);
     }
-
-    /**********************************************************************************************/
-
 
     @Override
     public void run() {
@@ -105,8 +93,8 @@ public class SnowSurfaceView extends SurfaceView implements SurfaceHolder.Callba
             mCanvas = mSurfaceHolder.lockCanvas();
             mCanvas.drawColor(Color.TRANSPARENT, PorterDuff.Mode.CLEAR);
 
-            for (Snow snow : mSnow) {
-                snow.drawSnow(mCanvas, mPaint);
+            for (Rain rain : mRain) {
+                rain.drawRain(mCanvas, mPaint);
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -117,5 +105,4 @@ public class SnowSurfaceView extends SurfaceView implements SurfaceHolder.Callba
             getHandler().postDelayed(this, delay);
         }
     }
-
 }

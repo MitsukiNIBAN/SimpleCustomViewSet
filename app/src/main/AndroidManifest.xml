@@ -13,7 +13,7 @@
 
         </activity>
 
-        <activity android:name=".DemoSnowActivity">
+        <activity android:name=".FallActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
