@@ -3,8 +3,6 @@ package com.mitsuki.falldownview.snow;
 import android.graphics.Matrix;
 import android.graphics.Path;
 
-import java.io.PipedInputStream;
-
 public class SnowSample implements SnowPath {
 
     private Path mPath;

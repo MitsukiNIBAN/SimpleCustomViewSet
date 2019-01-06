@@ -83,6 +83,7 @@ public class SnowSurfaceView extends SurfaceView implements SurfaceHolder.Callba
             mSnow.add(new Snow.Builder(snowPath, width, height)
                     .setFastest(8)
                     .setBiggest(30)
+                    .setSway(8, 5)
                     .build());
         }
 
