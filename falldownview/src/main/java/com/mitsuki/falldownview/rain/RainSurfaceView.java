@@ -70,7 +70,7 @@ public class RainSurfaceView extends SurfaceView implements SurfaceHolder.Callba
                     .setWidth(4)
                     .setLength(100, 200)
                     .setSpeed(24)
-                    .setTransparent(24)
+                    .setTransparent(10, 30)
                     .build());
         }
         //绘制线程
