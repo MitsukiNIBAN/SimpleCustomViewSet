@@ -9,7 +9,6 @@ import java.util.Random;
 
 public class Rain {
 
-
     private float length; //雨的长度
     private float width;  //雨的宽度
     private float speed;  //下落速度
@@ -25,8 +24,8 @@ public class Rain {
         this.parentHeight = builder.parentHeight;
         this.parentWidth = builder.parentWidth;
 
-        this.positionX = builder.random.nextInt(parentWidth) + 1;
-        this.positionY = builder.random.nextInt(parentHeight) + 1;
+        this.positionX = builder.random.nextInt(parentWidth);
+        this.positionY = builder.random.nextInt(parentHeight);
 
         this.length = builder.length;
         this.width = builder.width;
