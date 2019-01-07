@@ -64,6 +64,8 @@ public class ChartView extends View {
         //计算两轴长度
         mVerticalAxisLength = height - mChartViewDelegate.getHorizontalAxisTextWidth();
         mHorizontalAxisLength = width - mChartViewDelegate.getVerticalAxisTextWidth();
+
+        if (mChart.getPointMap().size() < 2) return;
         //计算两轴单位长度
         mVerticalAxisTextInterval = (mVerticalAxisLength - mChartViewDelegate.getVerticalReservedGap()
                 - mChartViewDelegate.getGapWithTextAndArrow()) / (mChart.getVeriCount() - 1);
@@ -98,34 +100,35 @@ public class ChartView extends View {
         mPointList.clear();
         //绘制纵轴坐标刻度文字
         //位置 x:纵轴文字宽度 - 轴离文字的距离 y:纵轴高度 - 单位长度
-        for (int i = 0; i < mChart.getVeriCount(); i++) {
-            if (mChartViewDelegate.isDrawVerticalAxisText()) {
-                canvas.drawText(((int) Math.floor(mChart.getVerticalUnitValue() * i)) + mChart.getUnit(),
-                        mChartViewDelegate.getVerticalAxisTextWidth() - mChartViewDelegate.getGapWithAxisAndText(),
-                        mVerticalAxisMinPosition - (i * mVerticalAxisTextInterval),
-                        mChartViewDelegate.getVerticalAxisTextPaint());
+        if (mChart.getPointMap().size() >= 2)
+            for (int i = 0; i < mChart.getVeriCount(); i++) {
+                if (mChartViewDelegate.isDrawVerticalAxisText()) {
+                    canvas.drawText(((int) Math.floor(mChart.getVerticalUnitValue() * i)) + mChart.getUnit(),
+                            mChartViewDelegate.getVerticalAxisTextWidth() - mChartViewDelegate.getGapWithAxisAndText(),
+                            mVerticalAxisMinPosition - (i * mVerticalAxisTextInterval),
+                            mChartViewDelegate.getVerticalAxisTextPaint());
+                }
+                onDrawCoordinateLine(canvas, true, mVerticalAxisMinPosition - (i * mVerticalAxisTextInterval));
             }
-            onDrawCoordinateLine(canvas, true, mVerticalAxisMinPosition - (i * mVerticalAxisTextInterval));
-        }
         //绘制横轴坐标刻度 以及计算坐标点的位置
         //位置 x: mChartViewDelegate.getHorizontalReservedGap() + 纵轴文字宽度 + 单元长度  y：横轴高度+轴与文字间的距离 + 文字高度
         int j = 0;
-
-        for (LinkedHashMap.Entry<String, Double> entry : mChart.getPointMap().entrySet()) {
+        if (mChart.getPointMap().size() >= 2)
+            for (LinkedHashMap.Entry<String, Double> entry : mChart.getPointMap().entrySet()) {
 //            System.out.println("key= " + entry.getKey() + " and value= " + entry.getValue());
-            double tempX = mChartViewDelegate.getHorizontalReservedGap() + mChartViewDelegate.getVerticalAxisTextWidth() + mHorizontalAxisTextInterval * j;
-            double tempY = mVerticalAxisLength - mChart.getVeriPosition(entry.getValue(), mVerticalAxisTextInterval) - mChartViewDelegate.getVerticalReservedGap();
-            mPointList.add(j, new Point(tempX, tempY));
-            if (mChartViewDelegate.isDrawHorizontalAxisText()) {
-                canvas.drawText(entry.getKey(),
-                        mHorizontalAxisMinPosition + mHorizontalAxisTextInterval * j,
-                        mVerticalAxisLength + mChartViewDelegate.getGapWithAxisAndText() + mChartViewDelegate.getHorizontalAxisTextSize(),
-                        mChartViewDelegate.getHorizontalAxisTextPaint());
+                double tempX = mChartViewDelegate.getHorizontalReservedGap() + mChartViewDelegate.getVerticalAxisTextWidth() + mHorizontalAxisTextInterval * j;
+                double tempY = mVerticalAxisLength - mChart.getVeriPosition(entry.getValue(), mVerticalAxisTextInterval) - mChartViewDelegate.getVerticalReservedGap();
+                mPointList.add(j, new Point(tempX, tempY));
+                if (mChartViewDelegate.isDrawHorizontalAxisText()) {
+                    canvas.drawText(entry.getKey(),
+                            mHorizontalAxisMinPosition + mHorizontalAxisTextInterval * j,
+                            mVerticalAxisLength + mChartViewDelegate.getGapWithAxisAndText() + mChartViewDelegate.getHorizontalAxisTextSize(),
+                            mChartViewDelegate.getHorizontalAxisTextPaint());
+                }
+                onDrawCoordinateLine(canvas, false, mHorizontalAxisMinPosition + mHorizontalAxisTextInterval * j);
+                onDrawAlignLine(canvas, (float) tempX, (float) tempY);
+                j++;
             }
-            onDrawCoordinateLine(canvas, false, mHorizontalAxisMinPosition + mHorizontalAxisTextInterval * j);
-            onDrawAlignLine(canvas, (float) tempX, (float) tempY);
-            j++;
-        }
 
         //绘制纵轴
         //起点 x:距离侧面‘留给纵轴文字的宽度’的位置 y：0
@@ -143,8 +146,10 @@ public class ChartView extends View {
         onDrawAxisArrow(canvas);
 
         //计算曲线控制点
-        onCubicBezierCurveControlPointCalculationForThree();
-        onDrawCubicBezierCurve(canvas);
+        if (mChart.getPointMap().size() >= 2) {
+            onCubicBezierCurveControlPointCalculationForThree();
+            onDrawCubicBezierCurve(canvas);
+        }
 
     }
 

@@ -4,12 +4,11 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#000"
     android:gravity="center"
     android:orientation="horizontal"
     tools:context=".MainActivity">
 
-    <com.mitsuki.falldownview.snow.SnowView
+    <com.mitsuki.variinstructtextview.VariInstructTextView
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
