@@ -21,8 +21,6 @@ public class FallSurfaceView extends SurfaceView implements SurfaceHolder.Callba
 
     private Paint mPaint;  // 画笔
 
-    private boolean isFirst = true;
-
     public FallSurfaceView(Context context) {
         this(context, null);
     }
@@ -55,16 +53,14 @@ public class FallSurfaceView extends SurfaceView implements SurfaceHolder.Callba
         setZOrderOnTop(true);
         mSurfaceHolder.setFormat(PixelFormat.TRANSLUCENT);
 
-        FrameQueueManager.getInstance().bindDrawTask(this);
-        FrameQueueManager.getInstance().startRenderingWork();
+        FrameThreadQueueManager.getInstance().onBindDrawThread(this);
+        FrameThreadQueueManager.getInstance().onStartRenderingTask();
     }
 
     @Override
     public void surfaceCreated(SurfaceHolder surfaceHolder) {
         //绑定绘制线程
-
-        FrameQueueManager.getInstance().startDrawWork();
-
+        FrameThreadQueueManager.getInstance().onStartDrawTask();
     }
 
     @Override
@@ -74,7 +70,7 @@ public class FallSurfaceView extends SurfaceView implements SurfaceHolder.Callba
 
     @Override
     public void surfaceDestroyed(SurfaceHolder surfaceHolder) {
-        getHandler().removeCallbacks(this);
+        FrameThreadQueueManager.getInstance().onDrawThreadCancel();
     }
 
     @Override
@@ -83,13 +79,7 @@ public class FallSurfaceView extends SurfaceView implements SurfaceHolder.Callba
             mCanvas = mSurfaceHolder.lockCanvas();
             mCanvas.drawColor(Color.TRANSPARENT, PorterDuff.Mode.CLEAR);
             //对单帧path进行绘制
-            Log.e("FallSurfaceView", FrameQueueManager.getInstance().getTest() + "");
-//            mCanvas.drawPath(, mPaint);
-//            if (!isFirst) {
-//
-//            } else {
-//                isFirst = false;
-//            }
+            mCanvas.drawPath(FrameThreadQueueManager.getInstance().obtainFramePath(), mPaint);
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
@@ -98,4 +88,5 @@ public class FallSurfaceView extends SurfaceView implements SurfaceHolder.Callba
             }
         }
     }
+
 }
