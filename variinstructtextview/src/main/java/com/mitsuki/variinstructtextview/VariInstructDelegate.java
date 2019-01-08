@@ -62,6 +62,8 @@ public class VariInstructDelegate {
         mPaint.setStyle(Paint.Style.FILL);
         if (mExtendTextColor != -1) {
             mPaint.setColor(mExtendTextColor);
+        } else {
+            mPaint.setColor(mArrowColor);
         }
         mPaint.setTextSize(mExtendTextSize);
         return mPaint;
