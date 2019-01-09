@@ -7,9 +7,10 @@ import android.graphics.Paint;
 import android.graphics.PixelFormat;
 import android.graphics.PorterDuff;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
+
+import com.mitsuki.falldownview.config.FallType;
 
 public class FallSurfaceView extends SurfaceView implements SurfaceHolder.Callback, Runnable {
 
@@ -54,7 +55,7 @@ public class FallSurfaceView extends SurfaceView implements SurfaceHolder.Callba
         mSurfaceHolder.setFormat(PixelFormat.TRANSLUCENT);
 
         FrameThreadQueueManager.getInstance().onBindDrawThread(this);
-        FrameThreadQueueManager.getInstance().onStartRenderingTask();
+        FrameThreadQueueManager.getInstance().onStartRenderingTask(FallType.SUKURA);
     }
 
     @Override

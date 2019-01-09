@@ -1,4 +1,4 @@
-package com.mitsuki.falldownview;
+package com.mitsuki.falldownview.config;
 
 public interface FallDownConfig {
     /**

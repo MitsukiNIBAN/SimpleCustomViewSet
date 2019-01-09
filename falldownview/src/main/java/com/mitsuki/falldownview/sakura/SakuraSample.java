@@ -4,7 +4,9 @@ import android.graphics.Matrix;
 import android.graphics.Path;
 import android.graphics.RectF;
 
-public class SakuraSample implements SakuraPath {
+import com.mitsuki.falldownview.base.FallObjectPath;
+
+public class SakuraSample implements FallObjectPath {
 
     private Path mPath;
 
@@ -14,16 +16,15 @@ public class SakuraSample implements SakuraPath {
     private float ovalHeight;
     private float ovalProportion;
 
-    private float baseline = 240;
+    private float baseline = 80;
 
     public SakuraSample() {
         this.mPath = new Path();
 
         this.ovalProportion = 0.7f;
-        this.ovalWidth = baseline;
+        this.width = baseline;
+        this.ovalWidth = baseline * 3f;
         this.ovalHeight = ovalProportion * ovalWidth;
-
-        this.width = ovalWidth * 0.3f;
 
         Path tempPath = new Path();
         Path tempDelta = new Path();
@@ -55,7 +56,7 @@ public class SakuraSample implements SakuraPath {
     }
 
     @Override
-    public Path getSakuraPath(int size) {
+    public Path getObjPath(float size) {
         Path path = new Path(mPath);
         Matrix matrix = new Matrix();
         matrix.setScale(size / baseline, size / baseline);
