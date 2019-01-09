@@ -1,8 +1,8 @@
 package com.mitsuki.falldownview.sakura;
 
-import com.mitsuki.falldownview.base.BaseBuilder;
-import com.mitsuki.falldownview.base.FallObjectPath;
-import com.mitsuki.falldownview.base.FallObject;
+import com.mitsuki.falldownview.BaseBuilder;
+import com.mitsuki.falldownview.FallObjectPath;
+import com.mitsuki.falldownview.FallObject;
 
 public class Sakura extends FallObject<Sakura.Builder> {
 
@@ -15,7 +15,7 @@ public class Sakura extends FallObject<Sakura.Builder> {
         this.rotate = builder.rotate;
     }
 
-    public static class Builder extends BaseBuilder {
+    public static class Builder extends BaseBuilder<Builder> {
 
         private float transparent; //透明度
         private float rotate; //转速

@@ -1,8 +1,8 @@
-package com.mitsuki.falldownview.base;
+package com.mitsuki.falldownview;
 
 import java.util.Random;
 
-public class BaseBuilder {
+public class BaseBuilder<T extends BaseBuilder> {
     protected Random random;
 
     protected final int parentWidth;
@@ -28,42 +28,42 @@ public class BaseBuilder {
     }
 
 
-    public BaseBuilder setSpeed(int speed) {
+    public T setSpeed(int speed) {
         this.fallSpeed = speed;
-        return this;
+        return (T) this;
     }
 
-    public BaseBuilder setSpeed(int min, int max) {
+    public T setSpeed(int min, int max) {
         if (max < min) {
             throw new RuntimeException("");
         }
         this.fallSpeed = random.nextInt(max - min) + min;
-        return this;
+        return (T) this;
     }
 
-    public BaseBuilder setWind(int wind) {
+    public T setWind(int wind) {
         this.wind = wind;
-        return this;
+        return (T) this;
     }
 
-    public BaseBuilder setWind(int min, int max) {
+    public T setWind(int min, int max) {
         if (max < min) {
             throw new RuntimeException("");
         }
         this.wind = random.nextInt(max - min) + min;
-        return this;
+        return (T) this;
     }
 
-    public BaseBuilder setSize(int size) {
+    public T setSize(int size) {
         this.size = size;
-        return this;
+        return (T) this;
     }
 
-    public BaseBuilder setSize(int min, int max) {
+    public T setSize(int min, int max) {
         if (max < min) {
             throw new RuntimeException("");
         }
         this.size = random.nextInt(max - min) + min;
-        return this;
+        return (T) this;
     }
 }

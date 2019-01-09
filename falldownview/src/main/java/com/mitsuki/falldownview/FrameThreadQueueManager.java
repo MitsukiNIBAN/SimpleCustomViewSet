@@ -2,7 +2,6 @@ package com.mitsuki.falldownview;
 
 import android.graphics.Path;
 
-import com.mitsuki.falldownview.base.OnPathCalculationCallback;
 import com.mitsuki.falldownview.config.FallDownConfig;
 
 import java.util.concurrent.Executors;
@@ -68,18 +67,11 @@ class FrameThreadQueueManager {
      * 开启path计算线程
      * 该线程会因队列塞满而阻塞
      */
-    public void onStartRenderingTask(int type) {
+    public void onStartRenderingTask(Runnable task) {
         if (null != mRenderingThread) {
             mRenderingThread = null;
         }
-        mRenderingThread = RenderingRunnableFactory.newRenderingRunnable(type,
-                new OnPathCalculationCallback() {
-                    @Override
-                    public void onCalculation(Path path) {
-                        //加入帧队列
-                        addFramePath(path);
-                    }
-                });
+        mRenderingThread = task;
         mRenderingFuture = mWorkThread.scheduleAtFixedRate(mRenderingThread, 0, FallDownConfig.RENDERING_DELAY, TimeUnit.MILLISECONDS);
     }
 
@@ -88,7 +80,7 @@ class FrameThreadQueueManager {
      *
      * @param path
      */
-    private void addFramePath(Path path) {
+    public void addFramePath(Path path) {
         try {
             mFrameQueue.put(path);
         } catch (InterruptedException e) {

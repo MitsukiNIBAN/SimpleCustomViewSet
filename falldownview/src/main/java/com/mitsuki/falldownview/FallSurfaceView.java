@@ -17,8 +17,9 @@ public class FallSurfaceView extends SurfaceView implements SurfaceHolder.Callba
     private int width; // 宽度
     private int height;  //高度
 
-    private SurfaceHolder mSurfaceHolder;
     private Canvas mCanvas;
+    private SurfaceHolder mSurfaceHolder;
+    private RenderingRunnable mRenderingRunnable;
 
     private Paint mPaint;  // 画笔
 
@@ -36,6 +37,8 @@ public class FallSurfaceView extends SurfaceView implements SurfaceHolder.Callba
         super.onLayout(changed, left, top, right, bottom);
         width = getWidth();
         height = getHeight();
+        mRenderingRunnable.onCreateFallObject(width, height);
+        FrameThreadQueueManager.getInstance().onStartRenderingTask(mRenderingRunnable);
     }
 
     /**
@@ -49,13 +52,13 @@ public class FallSurfaceView extends SurfaceView implements SurfaceHolder.Callba
         //画笔
         mPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
         mPaint.setColor(Color.parseColor("#ffffff"));
-        mPaint.setStyle(Paint.Style.STROKE);
+        mPaint.setStyle(Paint.Style.FILL);
 
         setZOrderOnTop(true);
         mSurfaceHolder.setFormat(PixelFormat.TRANSLUCENT);
+        mRenderingRunnable = RenderingRunnableFactory.newRenderingRunnable(FallType.SUKURA);
 
         FrameThreadQueueManager.getInstance().onBindDrawThread(this);
-        FrameThreadQueueManager.getInstance().onStartRenderingTask(FallType.SUKURA);
     }
 
     @Override

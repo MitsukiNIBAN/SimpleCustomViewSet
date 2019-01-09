@@ -1,4 +1,4 @@
-package com.mitsuki.falldownview.base;
+package com.mitsuki.falldownview;
 
 import android.graphics.Path;
 

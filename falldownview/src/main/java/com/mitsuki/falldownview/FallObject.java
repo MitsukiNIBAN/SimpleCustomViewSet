@@ -1,8 +1,8 @@
-package com.mitsuki.falldownview.base;
+package com.mitsuki.falldownview;
 
 import android.graphics.Path;
 
-public class FallObject<T extends BaseBuilder> {
+public abstract class FallObject<T extends BaseBuilder> {
     //所在view的大小
     private int parentWidth;
     private int parentHeight;
@@ -29,5 +29,10 @@ public class FallObject<T extends BaseBuilder> {
         this.wind = builder.wind;
 
         this.mPath = builder.pathImpl.getObjPath(this.size);
+        this.mPath.offset(positionX, positionY);
+    }
+
+    public Path getPath() {
+        return mPath;
     }
 }

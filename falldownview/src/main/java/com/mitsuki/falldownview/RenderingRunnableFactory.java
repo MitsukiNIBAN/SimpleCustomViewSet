@@ -1,20 +1,18 @@
 package com.mitsuki.falldownview;
 
-import com.mitsuki.falldownview.base.OnPathCalculationCallback;
-import com.mitsuki.falldownview.base.RenderingRunnable;
 import com.mitsuki.falldownview.config.FallType;
 import com.mitsuki.falldownview.sakura.SakuraRenderingRunnable;
 
 public class RenderingRunnableFactory {
 
-    public static RenderingRunnable newRenderingRunnable(int type, OnPathCalculationCallback onPathCalculationCallback) {
+    public static RenderingRunnable newRenderingRunnable(int type) {
         switch (type) {
             case FallType.SNOW:
                 return null;
             case FallType.RAIN:
                 return null;
             case FallType.SUKURA:
-                return new SakuraRenderingRunnable(onPathCalculationCallback);
+                return new SakuraRenderingRunnable();
             default:
                 return null;
         }

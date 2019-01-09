@@ -12,12 +12,12 @@ public interface FallDownConfig {
      * 但可能存在性能不够的情况
      * 导致绘制时间超过该间隔，实际帧率表现不如计算结果
      */
-    int DRAW_DELAY = 100;
+    int DRAW_DELAY = 2000;
 
     int RENDERING_DELAY = 5;
 
     /**
      * 元素的量
      */
-    int ELEMTENT_COUNT = 1;
+    int ELEMENT_COUNT = 10;
 }

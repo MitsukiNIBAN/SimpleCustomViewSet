@@ -4,7 +4,7 @@ import android.graphics.Matrix;
 import android.graphics.Path;
 import android.graphics.RectF;
 
-import com.mitsuki.falldownview.base.FallObjectPath;
+import com.mitsuki.falldownview.FallObjectPath;
 
 public class SakuraSample implements FallObjectPath {
 
