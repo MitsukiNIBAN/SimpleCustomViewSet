@@ -1,25 +1,15 @@
 package com.mitsuki.falldownview.snow;
 
-import android.graphics.Bitmap;
-import android.graphics.Canvas;
-import android.graphics.Matrix;
-import android.graphics.Paint;
-import android.graphics.Path;
+import com.mitsuki.falldownview.FallObject;
+import com.mitsuki.falldownview.FallObjectPath;
 
 import java.util.Random;
 
-public class Snow {
-    private int speed;  //下落速度
+public class Snow extends FallObject {
+
     private int swayAmplitude; //摇晃幅度,与曲线振幅相乘
     private int swayFrequency; //摇晃频度, 决定函数角度的步进
-
-    private int positionX;
-    private int positionY;
-    private int parentWidth;
-    private int parentHeight;
     private int angle;
-
-    private Path mPath; // 图片
 
     public Snow(Builder builder) {
         this.parentWidth = builder.parentWidth;
@@ -27,33 +17,33 @@ public class Snow {
 
         this.positionX = builder.random.nextInt(builder.parentWidth);
         this.positionY = builder.random.nextInt(builder.parentHeight);
-        this.speed = builder.random.nextInt(builder.fastest) + 1;
 
-        this.mPath = builder.snowPath.getSnowPath(builder.size);
+        this.size = builder.size;
+        this.fallSpeed = builder.fallSpeed;
+        this.wind = builder.wind;
+
+        this.mPath = builder.pathImpl.getObjPath(builder.size);
         this.mPath.offset(positionX, positionY);
 
         this.swayAmplitude = builder.swayAmplitude;
         this.swayFrequency = builder.swayFrequency;
+
         this.angle = 0;
     }
 
-    public void drawSnow(Canvas canvas, Paint p) {
-        canvas.drawPath(mPath, p);
-        moveSnow();
-    }
-
-    private void moveSnow() {
+    @Override
+    protected void move() {
         angle = angle + swayFrequency;
-        positionY = positionY + speed;
+        positionY = positionY + fallSpeed;
 
         float tempOffsetX;
         float tempOffsetY;
 
         if (positionY > parentHeight) {
-            tempOffsetY = -positionY + speed;
+            tempOffsetY = -positionY + fallSpeed;
             positionY = 0;
         } else {
-            tempOffsetY = speed;
+            tempOffsetY = fallSpeed;
         }
 
         if (angle > 360) {
@@ -67,48 +57,104 @@ public class Snow {
 
     public static class Builder {
         private Random random;
+
         private final int parentWidth;
         private final int parentHeight;
+
         private int size;
-        private int fastest; //最快速度
-        private SnowPath snowPath;
+        private int fallSpeed; //下落速度
+        protected float wind;
+
+        protected FallObjectPath pathImpl;
 
         private int swayAmplitude;
         private int swayFrequency;
 
-        public Builder(SnowPath snowPath, int parentWidth, int parentHeight) {
+        public Builder(FallObjectPath pathImpl, int parentWidth, int parentHeight) {
             this.random = new Random();
 
             this.parentWidth = parentWidth;
             this.parentHeight = parentHeight;
-            this.size = random.nextInt(32) + 1;
-            this.fastest = 24;
-            this.snowPath = snowPath;
+
+            this.size = 0;
+            this.fallSpeed = 0;
+            this.wind = 0;
 
             this.swayAmplitude = 0;
             this.swayFrequency = 0;
+
+            this.pathImpl = pathImpl;
         }
 
-        public Builder setBiggest(int size) {
-            this.size = random.nextInt(size) + 1;
+        public Snow build() {
+            return new Snow(this);
+        }
+
+        /******************************************************************************************/
+        public Builder setSize(int size) {
+            this.size = size;
             return this;
         }
 
-        public Builder setFastest(int speed) {
-            this.fastest = speed;
+        public Builder setSize(int min, int max) {
+            if (max < min) {
+                throw new RuntimeException("");
+            }
+            this.size = random.nextInt(max - min) + min;
             return this;
         }
 
+        public Builder setSpeed(int speed) {
+            this.fallSpeed = speed;
+            return this;
+        }
+
+        public Builder setSpeed(int min, int max) {
+            if (max < min) {
+                throw new RuntimeException("");
+            }
+            this.fallSpeed = random.nextInt(max - min) + min;
+            return this;
+        }
+
+        public Builder setWind(int wind) {
+            this.wind = wind;
+            return this;
+        }
+
+        public Builder setWind(int min, int max) {
+            if (max < min) {
+                throw new RuntimeException("");
+            }
+            this.wind = random.nextInt(max - min) + min;
+            return this;
+        }
+
+        /******************************************************************************************/
         public Builder setSway(int amplitude, int frequency) {
             this.swayAmplitude = amplitude;
             this.swayFrequency = frequency;
             return this;
         }
 
-        public Snow build() {
-            return new Snow(this);
+        public Builder setSwayAmplitude(int min, int max) {
+            if (max < min) {
+                throw new RuntimeException("");
+            }
+            this.swayAmplitude = random.nextInt(max - min) + min;
+            return this;
         }
-    }
 
+        public Builder setSwayFrequency(int min, int max) {
+            if (max < min
+                    || min < 0
+                    || max > 360) {
+                throw new RuntimeException("");
+            }
+            this.swayFrequency = random.nextInt(max - min) + min;
+            return this;
+        }
+
+    }
 
 }

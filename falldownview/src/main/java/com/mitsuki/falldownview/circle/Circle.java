@@ -1,16 +1,14 @@
-package com.mitsuki.falldownview.sakura;
+package com.mitsuki.falldownview.circle;
+
+import android.graphics.Path;
 
 import com.mitsuki.falldownview.FallObject;
-import com.mitsuki.falldownview.FallObjectPath;
 
 import java.util.Random;
 
-public class Sakura extends FallObject {
+public class Circle extends FallObject {
 
-    private float transparent; //透明度
-    private float rotate; //转速
-
-    public Sakura(Builder builder) {
+    public Circle(Builder builder) {
         this.parentWidth = builder.parentWidth;
         this.parentHeight = builder.parentHeight;
 
@@ -21,18 +19,13 @@ public class Sakura extends FallObject {
         this.fallSpeed = builder.fallSpeed;
         this.wind = builder.wind;
 
-        this.mPath = builder.pathImpl.getObjPath(builder.size);
-        this.mPath.offset(positionX, positionY);
-
-        this.transparent = builder.transparent;
-        this.rotate = builder.rotate;
+        this.mPath = new Path();
+        this.mPath.addCircle(positionX - builder.size, positionY - builder.size, builder.size, Path.Direction.CW);
     }
 
     @Override
     protected void move() {
         positionY = positionY + fallSpeed;
-        positionX = positionX + wind;
-        float tempOffsetX;
         float tempOffsetY;
         if (positionY > parentHeight) {
             tempOffsetY = -positionY + fallSpeed;
@@ -40,17 +33,9 @@ public class Sakura extends FallObject {
         } else {
             tempOffsetY = fallSpeed;
         }
-        if (positionX > parentWidth) {
-            tempOffsetX = -positionX + wind;
-            positionX = 0;
-        } else if (positionX < 0) {
-            tempOffsetX = positionX - wind;
-            positionX = parentWidth;
-        } else {
-            tempOffsetX = wind;
-        }
-        this.mPath.offset(tempOffsetX, tempOffsetY);
+        this.mPath.offset(0, tempOffsetY);
     }
+
 
     public static class Builder {
         private Random random;
@@ -62,12 +47,11 @@ public class Sakura extends FallObject {
         private int fallSpeed; //下落速度
         protected float wind;
 
-        protected FallObjectPath pathImpl;
 
-        private float transparent; //透明度
-        private float rotate; //转速
+        private int swayAmplitude;
+        private int swayFrequency;
 
-        public Builder(FallObjectPath pathImpl, int parentWidth, int parentHeight) {
+        public Builder(int parentWidth, int parentHeight) {
             this.random = new Random();
 
             this.parentWidth = parentWidth;
@@ -77,14 +61,12 @@ public class Sakura extends FallObject {
             this.fallSpeed = 0;
             this.wind = 0;
 
-            this.transparent = 0;
-            this.rotate = 0;
-
-            this.pathImpl = pathImpl;
+            this.swayAmplitude = 0;
+            this.swayFrequency = 0;
         }
 
-        public Sakura build() {
-            return new Sakura(this);
+        public Circle build() {
+            return new Circle(this);
         }
 
         /******************************************************************************************/
@@ -124,39 +106,6 @@ public class Sakura extends FallObject {
                 throw new RuntimeException("");
             }
             this.wind = random.nextInt(max - min) + min;
-            return this;
-        }
-
-        /******************************************************************************************/
-        public Builder setTransparent(int tran) {
-            if (tran < 0
-                    || tran > 100) {
-                throw new RuntimeException("");
-            }
-            this.transparent = tran;
-            return this;
-        }
-
-        public Builder setTransparent(int min, int max) {
-            if (max < min
-                    || min < 0
-                    || max > 100) {
-                throw new RuntimeException("");
-            }
-            this.transparent = random.nextInt(max - min) + min;
-            return this;
-        }
-
-        public Builder setRotate(int speed) {
-            this.rotate = speed;
-            return this;
-        }
-
-        public Builder setRotate(int min, int max) {
-            if (max < min) {
-                throw new RuntimeException("");
-            }
-            this.rotate = random.nextInt(max - min) + min;
             return this;
         }
     }

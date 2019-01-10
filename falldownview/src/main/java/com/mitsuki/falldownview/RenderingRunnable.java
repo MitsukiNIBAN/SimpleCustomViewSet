@@ -18,6 +18,7 @@ public abstract class RenderingRunnable<T extends FallObject> implements Runnabl
     public void run() {
         //回调
         FrameThreadQueueManager.getInstance().addFramePath(onPathCalculation());
+        FrameThreadQueueManager.getInstance().onPostRenderingTask();
     }
 
     protected abstract Path onPathCalculation();

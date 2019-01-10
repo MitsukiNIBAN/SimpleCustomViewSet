@@ -1,14 +1,14 @@
 package com.mitsuki.falldownview;
 
 import android.graphics.Path;
+import android.os.Handler;
+import android.os.HandlerThread;
+import android.os.Process;
+import android.util.Log;
 
 import com.mitsuki.falldownview.config.FallDownConfig;
 
-import java.util.concurrent.Executors;
-import java.util.concurrent.Future;
 import java.util.concurrent.LinkedBlockingQueue;
-import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.TimeUnit;
 
 /**
  * 用于管理帧队列、path计算线程、绘制线程
@@ -18,7 +18,12 @@ class FrameThreadQueueManager {
 
     private FrameThreadQueueManager() {
         mFrameQueue = new LinkedBlockingQueue(FallDownConfig.FRAME_CACHE_SIZE);
-        mWorkThread = Executors.newScheduledThreadPool(2);//核心线程数为2
+        mRenderingHandlerThread = new HandlerThread(RENDERING, Process.getThreadPriority(208));
+        mRenderingHandlerThread.start();
+        mRenderingHandler = new Handler(mRenderingHandlerThread.getLooper());
+        mPathDrawHandlerThread = new HandlerThread(DRAW, Process.getThreadPriority(209));
+        mPathDrawHandlerThread.start();
+        mDrawHandler = new Handler(mPathDrawHandlerThread.getLooper());
     }
 
     public static FrameThreadQueueManager getInstance() {
@@ -32,16 +37,24 @@ class FrameThreadQueueManager {
         return singleton;
     }
 
+    private final String RENDERING = "rendering";
+    private final String DRAW = "draw";
+
     //帧队列，用于存放计算和合成完毕的path
     private LinkedBlockingQueue mFrameQueue;
-    //工作线程池，其中包含path计算线程和path绘制线程
-    private ScheduledExecutorService mWorkThread;
+    //渲染path线程
+    private HandlerThread mRenderingHandlerThread;
+    private Handler mRenderingHandler;
+    //绘制path线程
+    private HandlerThread mPathDrawHandlerThread;
+    private Handler mDrawHandler;
+
     //存下来存下来
-    private Runnable mDrawThread;
     private Runnable mRenderingThread;
-    //用于暂停线程
-    private Future<?> mDrawFuture;
-    private Future<?> mRenderingFuture;
+    private Runnable mDrawThread;
+//    //用于暂停线程
+//    private Future<?> mDrawFuture;
+//    private Future<?> mRenderingFuture;
 
     /**
      * 提前保存Runnable
@@ -58,21 +71,29 @@ class FrameThreadQueueManager {
     /**
      * 开启绘制线程
      */
-    public void onStartDrawTask() {
+    public void onPostDrawTask() {
         //开启线程任务
-        mDrawFuture = mWorkThread.scheduleAtFixedRate(mDrawThread, 0, FallDownConfig.DRAW_DELAY, TimeUnit.MILLISECONDS);
+        mDrawHandler.postDelayed(mDrawThread, FallDownConfig.DRAW_DELAY);
+    }
+
+    /**
+     * 提前保存Runnable
+     *
+     * @param task
+     */
+    public void onBindRenderingTask(Runnable task) {
+        if (null != mRenderingThread) {
+            mRenderingThread = null;
+        }
+        this.mRenderingThread = task;
     }
 
     /**
      * 开启path计算线程
      * 该线程会因队列塞满而阻塞
      */
-    public void onStartRenderingTask(Runnable task) {
-        if (null != mRenderingThread) {
-            mRenderingThread = null;
-        }
-        mRenderingThread = task;
-        mRenderingFuture = mWorkThread.scheduleAtFixedRate(mRenderingThread, 0, FallDownConfig.RENDERING_DELAY, TimeUnit.MILLISECONDS);
+    public void onPostRenderingTask() {
+        mRenderingHandler.postDelayed(mRenderingThread, FallDownConfig.RENDERING_DELAY);
     }
 
     /**
@@ -95,6 +116,7 @@ class FrameThreadQueueManager {
      */
     public Path obtainFramePath() {
         try {
+            Log.d("count", mFrameQueue.size() + "");
             return (Path) mFrameQueue.take();
         } catch (InterruptedException e) {
             return null;
@@ -106,8 +128,8 @@ class FrameThreadQueueManager {
      * 重新onStartDrawTask()方法开启绘制线程
      */
     public void onDrawThreadCancel() {
-        if (null != mDrawFuture) {
-            mDrawFuture.cancel(true);
+        if (null != mPathDrawHandlerThread) {
+            mPathDrawHandlerThread.quit();
         }
     }
 
@@ -117,12 +139,14 @@ class FrameThreadQueueManager {
      */
     public void onDestroy() {
         try {
-            mDrawFuture.cancel(true);
-            mRenderingFuture.cancel(true);
-            mDrawThread = null;
+            mRenderingHandler.removeCallbacks(mRenderingThread);
+            mDrawHandler.removeCallbacks(mDrawThread);
+            mRenderingHandlerThread.quit();
+            mPathDrawHandlerThread.quit();
             mRenderingThread = null;
-            mDrawFuture = null;
-            mRenderingFuture = null;
+            mDrawThread = null;
+            mRenderingHandlerThread = null;
+            mDrawThread = null;
             mFrameQueue.clear();
         } catch (Exception e) {
             e.printStackTrace();

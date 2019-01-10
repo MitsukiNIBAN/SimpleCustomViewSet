@@ -32,7 +32,7 @@ public class SakuraRenderingRunnable extends RenderingRunnable<Sakura> {
     @Override
     protected void onCreateFallObject(int w, int h) {
         for (int i = 0; i < FallDownConfig.ELEMENT_COUNT; i++) {
-            mFallList.add(new Sakura.Builder(w, h, fallObjectPath)
+            mFallList.add(new Sakura.Builder(fallObjectPath, w, h)
                     .setWind(4)
                     .setSpeed(4)
                     .setSize(120, 240)

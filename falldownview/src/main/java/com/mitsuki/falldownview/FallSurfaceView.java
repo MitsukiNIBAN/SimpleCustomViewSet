@@ -4,9 +4,11 @@ import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.Path;
 import android.graphics.PixelFormat;
 import android.graphics.PorterDuff;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
@@ -38,7 +40,7 @@ public class FallSurfaceView extends SurfaceView implements SurfaceHolder.Callba
         width = getWidth();
         height = getHeight();
         mRenderingRunnable.onCreateFallObject(width, height);
-        FrameThreadQueueManager.getInstance().onStartRenderingTask(mRenderingRunnable);
+        FrameThreadQueueManager.getInstance().onPostRenderingTask();
     }
 
     /**
@@ -56,15 +58,16 @@ public class FallSurfaceView extends SurfaceView implements SurfaceHolder.Callba
 
         setZOrderOnTop(true);
         mSurfaceHolder.setFormat(PixelFormat.TRANSLUCENT);
-        mRenderingRunnable = RenderingRunnableFactory.newRenderingRunnable(FallType.SUKURA);
 
+        mRenderingRunnable = RenderingRunnableFactory.newRenderingRunnable(FallType.SNOW);
+        FrameThreadQueueManager.getInstance().onBindRenderingTask(mRenderingRunnable);
         FrameThreadQueueManager.getInstance().onBindDrawThread(this);
     }
 
     @Override
     public void surfaceCreated(SurfaceHolder surfaceHolder) {
         //绑定绘制线程
-        FrameThreadQueueManager.getInstance().onStartDrawTask();
+        FrameThreadQueueManager.getInstance().onPostDrawTask();
     }
 
     @Override
@@ -83,13 +86,18 @@ public class FallSurfaceView extends SurfaceView implements SurfaceHolder.Callba
             mCanvas = mSurfaceHolder.lockCanvas();
             mCanvas.drawColor(Color.TRANSPARENT, PorterDuff.Mode.CLEAR);
             //对单帧path进行绘制
-            mCanvas.drawPath(FrameThreadQueueManager.getInstance().obtainFramePath(), mPaint);
+            Path path = FrameThreadQueueManager.getInstance().obtainFramePath();
+            long startTime = System.nanoTime();
+            mCanvas.drawPath(path, mPaint);
+            long consumingTime = System.nanoTime() - startTime;
+            Log.e("time", consumingTime / 1000000 + "ms");
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
             if (null != mCanvas) {
                 mSurfaceHolder.unlockCanvasAndPost(mCanvas);
             }
+            FrameThreadQueueManager.getInstance().onPostDrawTask();
         }
     }
 

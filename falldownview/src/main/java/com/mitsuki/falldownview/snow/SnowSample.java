@@ -3,7 +3,9 @@ package com.mitsuki.falldownview.snow;
 import android.graphics.Matrix;
 import android.graphics.Path;
 
-public class SnowSample implements SnowPath {
+import com.mitsuki.falldownview.FallObjectPath;
+
+public class SnowSample implements FallObjectPath {
 
     private Path mPath;
 
@@ -42,7 +44,7 @@ public class SnowSample implements SnowPath {
     }
 
     @Override
-    public Path getSnowPath(int size) {
+    public Path getObjPath(float size) {
         //根据大小缩放处理
         Path path = new Path(mPath);
         Matrix matrix = new Matrix();
