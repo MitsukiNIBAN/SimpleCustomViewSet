@@ -5,6 +5,5 @@ public interface FallType {
     int RAIN = 2;
     int SAKURA = 3;
     int CIRCLE = 4;
-
-
+    int CONFETTI = 5;
 }

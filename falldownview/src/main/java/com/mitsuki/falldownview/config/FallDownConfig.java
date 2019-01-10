@@ -21,5 +21,5 @@ public interface FallDownConfig {
      * 元素的量
      * snow 200左右接近60帧极限
      */
-    int ELEMENT_COUNT = 200;
+    int ELEMENT_COUNT = 50;
 }

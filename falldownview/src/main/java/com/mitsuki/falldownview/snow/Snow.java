@@ -62,7 +62,7 @@ public class Snow extends FallObject {
         private final int parentHeight;
 
         private int size;
-        private int fallSpeed; //下落速度
+        private int fallSpeed;
         protected float wind;
 
         protected FallObjectPath pathImpl;

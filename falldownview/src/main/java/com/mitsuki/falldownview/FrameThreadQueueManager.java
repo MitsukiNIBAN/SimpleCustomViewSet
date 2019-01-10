@@ -111,7 +111,6 @@ class FrameThreadQueueManager {
      */
     public Object obtainFramePath() {
         try {
-            Log.d("count", mFrameQueue.size() + "");
             return mFrameQueue.take();
         } catch (InterruptedException e) {
             return null;

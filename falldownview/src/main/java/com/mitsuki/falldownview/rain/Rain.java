@@ -1,24 +1,17 @@
 package com.mitsuki.falldownview.rain;
 
-import android.graphics.Canvas;
-import android.graphics.Paint;
+import android.graphics.Path;
 
-import com.mitsuki.falldownview.snow.Snow;
+import com.mitsuki.falldownview.FallObject;
 
 import java.util.Random;
 
-public class Rain {
+public class Rain extends FallObject {
 
     private float length; //雨的长度
     private float width;  //雨的宽度
-    private float speed;  //下落速度
-    private float transparent;  //雨的透明度
-    private float wind;  //风力 注：当有风力时，为方便计算实际雨的长度会比设置的长度长，并且风力越大，偏差越大
 
-    private float positionX;
-    private float positionY;
-    private int parentWidth;
-    private int parentHeight;
+    private float transparent;  //雨的透明度
 
     public Rain(Builder builder) {
         this.parentHeight = builder.parentHeight;
@@ -27,55 +20,103 @@ public class Rain {
         this.positionX = builder.random.nextInt(parentWidth);
         this.positionY = builder.random.nextInt(parentHeight);
 
-        this.length = builder.length;
-        this.width = builder.width;
-        this.speed = builder.speed;
-        this.transparent = builder.transparent;
+        this.fallSpeed = builder.fallSpeed;
         this.wind = builder.wind;
+
+        this.width = builder.width;
+        this.length = builder.length;
+        this.transparent = builder.transparent;
+
+        this.mPath = new Path();
+        this.mPath.addRect(positionX, positionY, positionX + width, positionY + length, Path.Direction.CW);
     }
 
-    public void drawRain(Canvas canvas, Paint p) {
-        p.setStrokeWidth(width);
-        p.setAlpha((int) (255 * transparent / 100));
-        canvas.drawLine(positionX, positionY, positionX + wind, positionY + length, p);
-        moveRain();
-    }
-
-    private void moveRain() {
-        positionY = positionY + speed;
-        positionX = positionX + speed / length * wind;
+    @Override
+    protected void move() {
+        positionY = positionY + fallSpeed;
+        positionX = positionX + wind;
+        float tempOffsetX;
+        float tempOffsetY;
         if (positionY > parentHeight) {
+            tempOffsetY = -positionY + fallSpeed;
             positionY = 0;
+        } else {
+            tempOffsetY = fallSpeed;
         }
-        if (positionX < 0) {
-            positionX = parentWidth;
-        } else if (positionX > parentWidth) {
+        if (positionX > parentWidth) {
+            tempOffsetX = -positionX + wind;
             positionX = 0;
+        } else if (positionX < 0) {
+            tempOffsetX = positionX - wind;
+            positionX = parentWidth;
+        } else {
+            tempOffsetX = wind;
         }
+        this.mPath.offset(tempOffsetX, tempOffsetY);
     }
 
     public static class Builder {
         private Random random;
+
         private final int parentWidth;
         private final int parentHeight;
 
+        private int size;
+        private int fallSpeed;
+        protected float wind;
+
         private int length;
         private int width;
-        private int speed;
+
         private int transparent;
-        private int wind;
 
         public Builder(int parentWidth, int parentHeight) {
             this.random = new Random();
             this.parentWidth = parentWidth;
             this.parentHeight = parentHeight;
 
+            this.size = 0;
+            this.fallSpeed = 0;
+            this.wind = 0;
+
             this.length = 0;
             this.width = 0;
-            this.speed = 0;
+
             this.transparent = 0;
-            this.wind = 0;
         }
+
+        public Rain build() {
+            return new Rain(this);
+        }
+
+        /******************************************************************************************/
+        public Builder setSpeed(int speed) {
+            this.fallSpeed = speed;
+            return this;
+        }
+
+        public Builder setSpeed(int min, int max) {
+            if (max < min) {
+                throw new RuntimeException("");
+            }
+            this.fallSpeed = random.nextInt(max - min) + min;
+            return this;
+        }
+
+        public Builder setWind(int wind) {
+            this.wind = wind;
+            return this;
+        }
+
+        public Builder setWind(int min, int max) {
+            if (max < min) {
+                throw new RuntimeException("");
+            }
+            this.wind = random.nextInt(max - min) + min;
+            return this;
+        }
+
+        /******************************************************************************************/
 
         public Builder setLength(int length) {
             this.length = length;
@@ -103,19 +144,6 @@ public class Rain {
             return this;
         }
 
-        public Builder setSpeed(int speed) {
-            this.speed = speed;
-            return this;
-        }
-
-        public Builder setSpeed(int min, int max) {
-            if (max < min) {
-                throw new RuntimeException("");
-            }
-            this.speed = random.nextInt(max - min) + min;
-            return this;
-        }
-
         public Builder setTransparent(int tran) {
             if (tran < 0
                     || tran > 100) {
@@ -135,13 +163,5 @@ public class Rain {
             return this;
         }
 
-        public Builder setWind(int wind) {
-            this.wind = wind;
-            return this;
-        }
-
-        public Rain build() {
-            return new Rain(this);
-        }
     }
 }

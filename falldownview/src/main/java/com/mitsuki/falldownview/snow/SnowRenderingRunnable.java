@@ -14,7 +14,7 @@ public class SnowRenderingRunnable extends RenderingRunnable<Snow> {
     protected void onCreateFallObject(int width, int height) {
         for (int i = 0; i < FallDownConfig.ELEMENT_COUNT; i++) {
             mFallList.add(new Snow.Builder(fallObjectPath, width, height)
-                    .setSpeed(4, 16)
+                    .setSpeed(1, 9)
                     .setSize(4, 30)
                     .setSway(8, 5)
                     .build());

@@ -47,10 +47,6 @@ public class Circle extends FallObject {
         private int fallSpeed; //下落速度
         protected float wind;
 
-
-        private int swayAmplitude;
-        private int swayFrequency;
-
         public Builder(int parentWidth, int parentHeight) {
             this.random = new Random();
 
@@ -60,9 +56,6 @@ public class Circle extends FallObject {
             this.size = 0;
             this.fallSpeed = 0;
             this.wind = 0;
-
-            this.swayAmplitude = 0;
-            this.swayFrequency = 0;
         }
 
         public Circle build() {
