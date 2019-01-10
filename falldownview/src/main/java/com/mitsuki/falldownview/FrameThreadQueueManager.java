@@ -1,6 +1,5 @@
 package com.mitsuki.falldownview;
 
-import android.graphics.Path;
 import android.os.Handler;
 import android.os.HandlerThread;
 import android.os.Process;
@@ -40,7 +39,6 @@ class FrameThreadQueueManager {
     private final String RENDERING = "rendering";
     private final String DRAW = "draw";
 
-    //帧队列，用于存放计算和合成完毕的path
     private LinkedBlockingQueue mFrameQueue;
     //渲染path线程
     private HandlerThread mRenderingHandlerThread;
@@ -52,9 +50,6 @@ class FrameThreadQueueManager {
     //存下来存下来
     private Runnable mRenderingThread;
     private Runnable mDrawThread;
-//    //用于暂停线程
-//    private Future<?> mDrawFuture;
-//    private Future<?> mRenderingFuture;
 
     /**
      * 提前保存Runnable
@@ -101,7 +96,7 @@ class FrameThreadQueueManager {
      *
      * @param path
      */
-    public void addFramePath(Path path) {
+    public void addFramePath(Object path) {
         try {
             mFrameQueue.put(path);
         } catch (InterruptedException e) {
@@ -114,9 +109,10 @@ class FrameThreadQueueManager {
      *
      * @return
      */
-    public Path obtainFramePath() {
+    public Object obtainFramePath() {
         try {
-            return (Path) mFrameQueue.take();
+            Log.d("count", mFrameQueue.size() + "");
+            return mFrameQueue.take();
         } catch (InterruptedException e) {
             return null;
         }

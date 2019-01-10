@@ -15,10 +15,11 @@ public interface FallDownConfig {
      */
     int DRAW_DELAY = 15;
 
-    int RENDERING_DELAY = 0;
+    int RENDERING_DELAY = 10;
 
     /**
      * 元素的量
+     * snow 200左右接近60帧极限
      */
-    int ELEMENT_COUNT = 20;
+    int ELEMENT_COUNT = 200;
 }

@@ -4,15 +4,15 @@ import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
-import android.graphics.Path;
 import android.graphics.PixelFormat;
 import android.graphics.PorterDuff;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
 import com.mitsuki.falldownview.config.FallType;
+
+import java.util.List;
 
 public class FallSurfaceView extends SurfaceView implements SurfaceHolder.Callback, Runnable {
 
@@ -85,9 +85,11 @@ public class FallSurfaceView extends SurfaceView implements SurfaceHolder.Callba
         try {
             mCanvas = mSurfaceHolder.lockCanvas();
             mCanvas.drawColor(Color.TRANSPARENT, PorterDuff.Mode.CLEAR);
-            //对单帧path进行绘制
-            Path path = FrameThreadQueueManager.getInstance().obtainFramePath();
-            mCanvas.drawPath(path, mPaint);
+
+            List<FallObject> list = (List) FrameThreadQueueManager.getInstance().obtainFramePath();
+            for (FallObject fallObject : list) {
+                mCanvas.drawPath(fallObject.getPath(), mPaint);
+            }
         } catch (Exception e) {
             e.printStackTrace();
         } finally {

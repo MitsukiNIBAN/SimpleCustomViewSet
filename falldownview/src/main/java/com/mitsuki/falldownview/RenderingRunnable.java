@@ -1,7 +1,5 @@
 package com.mitsuki.falldownview;
 
-import android.graphics.Path;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -17,11 +15,12 @@ public abstract class RenderingRunnable<T extends FallObject> implements Runnabl
     @Override
     public void run() {
         //回调
-        FrameThreadQueueManager.getInstance().addFramePath(onPathCalculation());
+        for (int i = 0; i < mFallList.size(); i++) {
+            mFallList.get(i).move();
+        }
+        FrameThreadQueueManager.getInstance().addFramePath(mFallList);
         FrameThreadQueueManager.getInstance().onPostRenderingTask();
     }
-
-    protected abstract Path onPathCalculation();
 
     protected abstract void onCreateFallObject(int width, int height);
 }
