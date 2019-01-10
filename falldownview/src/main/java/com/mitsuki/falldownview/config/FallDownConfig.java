@@ -20,5 +20,5 @@ public interface FallDownConfig {
     /**
      * 元素的量
      */
-    int ELEMENT_COUNT = 40;
+    int ELEMENT_COUNT = 20;
 }

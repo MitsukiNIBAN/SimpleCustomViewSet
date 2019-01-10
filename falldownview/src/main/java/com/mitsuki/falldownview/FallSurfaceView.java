@@ -87,10 +87,7 @@ public class FallSurfaceView extends SurfaceView implements SurfaceHolder.Callba
             mCanvas.drawColor(Color.TRANSPARENT, PorterDuff.Mode.CLEAR);
             //对单帧path进行绘制
             Path path = FrameThreadQueueManager.getInstance().obtainFramePath();
-            long startTime = System.nanoTime();
             mCanvas.drawPath(path, mPaint);
-            long consumingTime = System.nanoTime() - startTime;
-            Log.e("time", consumingTime / 1000000 + "ms");
         } catch (Exception e) {
             e.printStackTrace();
         } finally {

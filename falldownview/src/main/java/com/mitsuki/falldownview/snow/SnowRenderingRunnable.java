@@ -1,32 +1,36 @@
 package com.mitsuki.falldownview.snow;
 
 import android.graphics.Path;
+import android.util.Log;
 
 import com.mitsuki.falldownview.RenderingRunnable;
 import com.mitsuki.falldownview.config.FallDownConfig;
 
 public class SnowRenderingRunnable extends RenderingRunnable<Snow> {
-//    private Path mPath;
+    private Path mPath;
 
     public SnowRenderingRunnable() {
         super();
         this.fallObjectPath = new SnowSample();
-//        this.mPath = new Path();
+        this.mPath = new Path();
     }
 
     @Override
     protected Path onPathCalculation() {
-        Path path = new Path();
+        long startTime = System.nanoTime();
+        mPath.reset();
         for (int i = 0; i < mFallList.size(); i++) {
             Snow snow = mFallList.get(i);
             if (i == 0) {
-                path.set(snow.getPath());
+                mPath.set(snow.getPath());
             } else {
-                path.op(snow.getPath(), Path.Op.UNION);
+                mPath.op(snow.getPath(), Path.Op.UNION);
             }
             snow.move();
         }
-        return path;
+        long consumingTime = System.nanoTime() - startTime;
+        Log.e("time", consumingTime / 1000000 + "ms");
+        return mPath;
     }
 
     @Override
