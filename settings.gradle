@@ -1,1 +1,1 @@
-include ':app', ':chartview', ':circleprogressview', ':variinstructtextview', ':falldownview'
+include ':app', ':chartview', ':circleprogressview', ':variinstructtextview', ':falldownview', ':cranedemonstration'
