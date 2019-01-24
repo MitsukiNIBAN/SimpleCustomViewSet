@@ -1,30 +1,18 @@
-package com.mitsuki.falldownview.sakura;
+package com.mitsuki.falldownview.path;
 
-import android.graphics.Matrix;
 import android.graphics.Path;
 import android.graphics.RectF;
 
-import com.mitsuki.falldownview.FallObjectPath;
-
-public class SakuraSample implements FallObjectPath {
-
-    private Path mPath;
-
-    private float width;
-
-    private float ovalWidth;
-    private float ovalHeight;
-    private float ovalProportion;
-
-    private float baseline = 80;
+public class SakuraSample extends ComponentSample {
 
     public SakuraSample() {
+        this.baseline = 80;
         this.mPath = new Path();
 
-        this.ovalProportion = 0.7f;
-        this.width = baseline;
-        this.ovalWidth = baseline * 3f;
-        this.ovalHeight = ovalProportion * ovalWidth;
+        float ovalProportion = 0.7f;
+        float width = baseline;
+        float ovalWidth = baseline * 3f;
+        float ovalHeight = ovalProportion * ovalWidth;
 
         Path tempPath = new Path();
         Path tempDelta = new Path();
@@ -48,19 +36,5 @@ public class SakuraSample implements FallObjectPath {
         tempPath.op(tempDelta, Path.Op.DIFFERENCE);
 
         mPath.op(tempPath, Path.Op.INTERSECT);
-    }
-
-    @Override
-    public int getBaseLine() {
-        return (int) baseline;
-    }
-
-    @Override
-    public Path getObjPath(float size) {
-        Path path = new Path(mPath);
-        Matrix matrix = new Matrix();
-        matrix.setScale(size / baseline, size / baseline);
-        path.transform(matrix);
-        return path;
     }
 }

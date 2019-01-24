@@ -10,10 +10,6 @@ import android.util.AttributeSet;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
-import com.mitsuki.falldownview.config.FallType;
-
-import java.util.List;
-
 public class FallSurfaceView extends SurfaceView implements SurfaceHolder.Callback, Runnable {
 
     private int width; // 宽度
@@ -21,9 +17,11 @@ public class FallSurfaceView extends SurfaceView implements SurfaceHolder.Callba
 
     private Canvas mCanvas;
     private SurfaceHolder mSurfaceHolder;
-    private RenderingRunnable mRenderingRunnable;
+//    private RenderingRunnable mRenderingRunnable;
+
 
     private Paint mPaint;  // 画笔
+
 
     public FallSurfaceView(Context context) {
         this(context, null);
@@ -39,9 +37,11 @@ public class FallSurfaceView extends SurfaceView implements SurfaceHolder.Callba
         super.onLayout(changed, left, top, right, bottom);
         width = getWidth();
         height = getHeight();
-        mRenderingRunnable.onCreateFallObject(width, height);
-        FrameThreadQueueManager.getInstance().onPostRenderingTask();
+//        mRenderingRunnable.onCreateFallObject(width, height);
+//        FrameThreadQueueManager.getInstance().onPostRenderingTask();
+
     }
+
 
     /**
      * 初始化
@@ -52,16 +52,14 @@ public class FallSurfaceView extends SurfaceView implements SurfaceHolder.Callba
         mSurfaceHolder.addCallback(this);
 
         //画笔
-        mPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
-        mPaint.setColor(Color.parseColor("#ffffff"));
-        mPaint.setStyle(Paint.Style.FILL);
+        mPaint = new Paint();
 
         setZOrderOnTop(true);
         mSurfaceHolder.setFormat(PixelFormat.TRANSLUCENT);
 
-        mRenderingRunnable = RenderingRunnableFactory.newRenderingRunnable(FallType.SNOW);
-        FrameThreadQueueManager.getInstance().onBindRenderingTask(mRenderingRunnable);
-        FrameThreadQueueManager.getInstance().onBindDrawThread(this);
+//        mRenderingRunnable = RenderingRunnableFactory.newRenderingRunnable(ComponentType.SNOW);
+//        FrameThreadQueueManager.getInstance().onBindRenderingTask(mRenderingRunnable);
+//        FrameThreadQueueManager.getInstance().onBindDrawThread(this);
     }
 
     @Override
@@ -86,10 +84,6 @@ public class FallSurfaceView extends SurfaceView implements SurfaceHolder.Callba
             mCanvas = mSurfaceHolder.lockCanvas();
             mCanvas.drawColor(Color.TRANSPARENT, PorterDuff.Mode.CLEAR);
 
-            List<FallObject> list = (List) FrameThreadQueueManager.getInstance().obtainFramePath();
-            for (FallObject fallObject : list) {
-                mCanvas.drawPath(fallObject.getPath(), mPaint);
-            }
         } catch (Exception e) {
             e.printStackTrace();
         } finally {

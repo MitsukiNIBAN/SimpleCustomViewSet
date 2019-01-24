@@ -1,8 +1,8 @@
-package com.mitsuki.falldownview;
+package com.mitsuki.falldownview.path;
 
 import android.graphics.Path;
 
-public interface FallObjectPath {
+public interface ComponentPath {
     int getBaseLine();
 
     Path getObjPath(float size);

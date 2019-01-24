@@ -1,20 +1,15 @@
-package com.mitsuki.falldownview.snow;
+package com.mitsuki.falldownview.path;
 
 import android.graphics.Matrix;
 import android.graphics.Path;
 
-import com.mitsuki.falldownview.FallObjectPath;
-
-public class SnowSample implements FallObjectPath {
-
-    private Path mPath;
-
-    private final float baseline = 360; //基准大小
-    private final float center = baseline / 2; //中心点
-    private final float piece = 90; //雪花臂的宽度
-    private final float diff = Math.round(piece / 2 * Math.sqrt(3));
-
+public class SnowSample extends ComponentSample {
     public SnowSample() {
+        this.baseline = 360;
+        float center = baseline / 2; //中心点
+        float piece = 90;//雪花臂的宽度
+        float diff = Math.round(piece / 2 * Math.sqrt(3));
+
         mPath = new Path();
         mPath.addCircle(center, center, piece / 2, Path.Direction.CCW);
 
@@ -38,18 +33,4 @@ public class SnowSample implements FallObjectPath {
         }
     }
 
-    @Override
-    public int getBaseLine() {
-        return (int) baseline;
-    }
-
-    @Override
-    public Path getObjPath(float size) {
-        //根据大小缩放处理
-        Path path = new Path(mPath);
-        Matrix matrix = new Matrix();
-        matrix.setScale(size / baseline, size / baseline);
-        path.transform(matrix);
-        return path;
-    }
 }
