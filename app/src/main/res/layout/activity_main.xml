@@ -8,14 +8,25 @@
     android:orientation="horizontal"
     tools:context=".MainActivity">
 
+    <TextView
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1" />
+
     <com.mitsuki.circleprogressview.CircleProgressView
-        android:layout_width="240dp"
-        android:layout_height="240dp"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
         app:board_circle_color="#D1E0E7"
         app:board_circle_width="20dp"
         app:end_point_hollow_size="8dp"
         app:percent="90"
         app:progress_circle_color="#4AC3FF"
         app:progress_circle_width="20dp" />
+
+    <TextView
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1" />
 
 </LinearLayout>

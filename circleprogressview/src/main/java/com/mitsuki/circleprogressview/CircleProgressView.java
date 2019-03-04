@@ -49,6 +49,21 @@ public class CircleProgressView extends View {
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
+        int w = getMeasuredWidth();
+        int h = getMeasuredHeight();
+        int widthMode = MeasureSpec.getMode(widthMeasureSpec);
+        int heightMode = MeasureSpec.getMode(heightMeasureSpec);
+        if (widthMode == MeasureSpec.AT_MOST && heightMode == MeasureSpec.AT_MOST) {
+            setMeasuredDimension(44, 44);
+            return;
+        }
+        if (heightMode == MeasureSpec.AT_MOST) {
+            setMeasuredDimension(w, w);
+        }
+
+        if (widthMode == MeasureSpec.AT_MOST) {
+            setMeasuredDimension(h, h);
+        }
     }
 
     @Override
