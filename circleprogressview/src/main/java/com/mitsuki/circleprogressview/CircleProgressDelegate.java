@@ -96,21 +96,6 @@ public class CircleProgressDelegate {
     }
 
     /**
-     * 获取进度线画笔
-     * 纯色方案
-     *
-     * @return
-     */
-    public Paint getProgressCirclePaint() {
-        mPaint.reset();
-        mPaint.setAntiAlias(true);
-        mPaint.setStyle(Paint.Style.STROKE);
-        mPaint.setStrokeWidth(mProgressCircleWidth);
-        mPaint.setColor(mProgressCircleColor);
-        return mPaint;
-    }
-
-    /**
      * 圈俩端点的画笔
      *
      * @param isStarter 是否是线开始的端点

@@ -18,10 +18,6 @@
         <attr name="circle_padding" format="dimension" />
         <attr name="percent" format="integer" />
 
-        <attr name="gradient_type" format="enum">
-            <enum name="radial" value="0" />
-            <enum name="linear" value="1" />
-        </attr>
         <attr name="end_point_hollow_size" format="dimension" />
     </declare-styleable>
 </resources>
