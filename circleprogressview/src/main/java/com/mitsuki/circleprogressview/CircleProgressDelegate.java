@@ -29,17 +29,11 @@ public class CircleProgressDelegate {
 
     private float mCirclePadding; //圈的填充
 
-    private String mText;
-    private int mTextColor;
-    private float mTextSize;
-    private boolean isDrawPercent;
     private int percent;
-    private int mPercentTextColor;
-    private float mPercentTextSize;
-    private float mTextPadding;
 
+    private float mEndPointHollowSize; // 端点空心的大小
 
-    public CircleProgressDelegate(Context context,AttributeSet attrs) {
+    public CircleProgressDelegate(Context context, AttributeSet attrs) {
         mPaint = new Paint();
         TypedArray array = context.obtainStyledAttributes(attrs, R.styleable.CircleProgressView);
 
@@ -53,16 +47,10 @@ public class CircleProgressDelegate {
         mProgressCircleEndColor = array.getColor(R.styleable.CircleProgressView_progress_circle_gradient_end_color, DEFAULT_COLOR);
 
         mCirclePadding = array.getDimension(R.styleable.CircleProgressView_circle_padding, 0);
-
-        mText = array.getString(R.styleable.CircleProgressView_text);
-        mTextColor = array.getColor(R.styleable.CircleProgressView_text_color, DEFAULT_COLOR);
-        mTextSize = array.getDimension(R.styleable.CircleProgressView_text_size, 14);
-
         percent = array.getInteger(R.styleable.CircleProgressView_percent, 0);
-        isDrawPercent = array.getBoolean(R.styleable.CircleProgressView_draw_percent, true);
-        mPercentTextColor = array.getColor(R.styleable.CircleProgressView_percent_text_color, DEFAULT_COLOR);
-        mPercentTextSize = array.getDimension(R.styleable.CircleProgressView_percent_text_size, 80);
-        mTextPadding = array.getDimension(R.styleable.CircleProgressView_text_padding, 0);
+
+        mEndPointHollowSize = array.getDimension(R.styleable.CircleProgressView_end_point_hollow_size, 0);
+
     }
 
     /**
@@ -143,35 +131,15 @@ public class CircleProgressDelegate {
         return mPaint;
     }
 
-    /**
-     * 获取百分数值画笔
-     *
-     * @param isSymbol 是不是百分号
-     * @return
-     */
-    public Paint getPersentTextPaint(boolean isSymbol) {
+    public Paint getEndPointHollowPaint() {
         mPaint.reset();
         mPaint.setAntiAlias(true);
-        mPaint.setColor(mPercentTextColor);
-        if (isSymbol) {
-            mPaint.setTextSize(mPercentTextSize / 3);
-            mPaint.setTextAlign(Paint.Align.LEFT);
-        } else {
-            mPaint.setTextSize(mPercentTextSize);
-            mPaint.setTextAlign(Paint.Align.CENTER);
-        }
+        mPaint.setStyle(Paint.Style.FILL);
+        mPaint.setStrokeWidth(getEndPointHollowSize());
+        mPaint.setColor(mBoardCircleColor);
         return mPaint;
     }
 
-    public Paint getTextPaint() {
-        mPaint.reset();
-        mPaint.setAntiAlias(true);
-        mPaint.setColor(mTextColor);
-        mPaint.setTextSize(mTextSize);
-        mPaint.setTextAlign(Paint.Align.CENTER);
-        mPaint.setStyle(Paint.Style.FILL);
-        return mPaint;
-    }
 
     /**********************************************************************************************/
 
@@ -187,18 +155,6 @@ public class CircleProgressDelegate {
         return mCirclePadding;
     }
 
-    public String getText() {
-        return mText;
-    }
-
-    public boolean isDrawPercent() {
-        return isDrawPercent;
-    }
-
-    public String getPercentText() {
-        return String.valueOf(percent);
-    }
-
     public int getPercent() {
         return percent;
     }
@@ -207,8 +163,11 @@ public class CircleProgressDelegate {
         return (float) percent / 100;
     }
 
-    public float getTextPadding() {
-        return mTextPadding;
+    public float getEndPointHollowSize() {
+        if (mProgressCircleWidth < mEndPointHollowSize) {
+            return mProgressCircleWidth;
+        }
+        return mEndPointHollowSize;
     }
 
     /**********************************************************************************************/

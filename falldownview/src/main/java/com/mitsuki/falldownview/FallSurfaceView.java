@@ -10,6 +10,8 @@ import android.util.AttributeSet;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
+import com.mitsuki.falldownview.config.ComponentType;
+
 public class FallSurfaceView extends SurfaceView implements SurfaceHolder.Callback, Runnable {
 
     private int width; // 宽度
@@ -22,6 +24,7 @@ public class FallSurfaceView extends SurfaceView implements SurfaceHolder.Callba
 
     private Paint mPaint;  // 画笔
 
+    private HelperManager manager;
 
     public FallSurfaceView(Context context) {
         this(context, null);
@@ -39,7 +42,6 @@ public class FallSurfaceView extends SurfaceView implements SurfaceHolder.Callba
         height = getHeight();
 //        mRenderingRunnable.onCreateFallObject(width, height);
 //        FrameThreadQueueManager.getInstance().onPostRenderingTask();
-
     }
 
 
@@ -56,6 +58,9 @@ public class FallSurfaceView extends SurfaceView implements SurfaceHolder.Callba
 
         setZOrderOnTop(true);
         mSurfaceHolder.setFormat(PixelFormat.TRANSLUCENT);
+
+        manager = new HelperManager();
+        manager.initHandlerThread().initComponentHelper(ComponentType.CIRCLE);
 
 //        mRenderingRunnable = RenderingRunnableFactory.newRenderingRunnable(ComponentType.SNOW);
 //        FrameThreadQueueManager.getInstance().onBindRenderingTask(mRenderingRunnable);

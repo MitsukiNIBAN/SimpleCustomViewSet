@@ -58,9 +58,8 @@ public class CircleProgressView extends View {
         mCircleRegion = Math.min(width, height) - (2 * mCircleProgressDelegate.getCirclePadding());
 
         onDrawBoardCircle(canvas);
-        onDrawArcLineEndPoint(canvas);
-        onDrawText(canvas);
         onDrawProgressCircle(canvas);
+        onDrawArcLineEndPoint(canvas);
     }
 
 
@@ -89,47 +88,26 @@ public class CircleProgressView extends View {
         canvas.drawCircle(mEndPointOneX, mEndPointOneY,
                 mCircleProgressDelegate.getProgressCircleWidth() / 2,
                 mCircleProgressDelegate.getProgressEndPointPaint(true));
+        if (mCircleProgressDelegate.getEndPointHollowSize() > 0) {
+            canvas.drawCircle(mEndPointOneX, mEndPointOneY,
+                    mCircleProgressDelegate.getEndPointHollowSize() / 2,
+                    mCircleProgressDelegate.getEndPointHollowPaint());
+        }
+
+
         double angle = 360 * mCircleProgressDelegate.getPercentProp();
         double x = width / 2 + Math.cos(Math.toRadians(90 - angle)) * (mCircleRegion - mCircleProgressDelegate.getProgressCircleWidth()) / 2;
         double y = height / 2 - Math.sin(Math.toRadians(90 - angle)) * (mCircleRegion - mCircleProgressDelegate.getProgressCircleWidth()) / 2;
         canvas.drawCircle((float) x, (float) y, mCircleProgressDelegate.getProgressCircleWidth() / 2,
                 mCircleProgressDelegate.getProgressEndPointPaint(false));
-    }
 
-    //绘制中心文字
-    private void onDrawText(Canvas canvas) {
-        if (!TextUtils.isEmpty(mCircleProgressDelegate.getText()) &&
-                mCircleProgressDelegate.isDrawPercent()) {
-            //俩文字都有的时候
-            Paint paint = mCircleProgressDelegate.getPersentTextPaint(false);
-            canvas.drawText(mCircleProgressDelegate.getPercentText(), width / 2, height / 2, paint);
-            float textWidth = getTextWidth(paint, mCircleProgressDelegate.getPercentText());
-            paint = mCircleProgressDelegate.getPersentTextPaint(true);
-            canvas.drawText("%", mCenterX + textWidth / 2, mCenterY, paint);
-
-            paint = mCircleProgressDelegate.getTextPaint();
-            canvas.drawText(mCircleProgressDelegate.getText(),
-                    mCenterX, mCenterY + getTextHeight(paint,
-                            mCircleProgressDelegate.getText()) + mCircleProgressDelegate.getTextPadding(),
-                    paint);
-        } else if (!TextUtils.isEmpty(mCircleProgressDelegate.getText())) {
-            //只有中文
-            Paint paint = mCircleProgressDelegate.getTextPaint();
-            canvas.drawText(mCircleProgressDelegate.getText(),
-                    mCenterX, mCenterY + getTextHeight(paint, mCircleProgressDelegate.getText()) / 2,
-                    paint);
-        } else if (mCircleProgressDelegate.isDrawPercent()) {
-            //只有百分比
-            Paint paint = mCircleProgressDelegate.getPersentTextPaint(false);
-            float tempH = getTextHeight(paint, mCircleProgressDelegate.getPercentText());
-            canvas.drawText(mCircleProgressDelegate.getPercentText(), mCenterX, mCenterY + tempH / 2, paint);
-            float textWidth = getTextWidth(paint, mCircleProgressDelegate.getPercentText());
-            paint = mCircleProgressDelegate.getPersentTextPaint(true);
-            canvas.drawText("%", mCenterX + textWidth / 2, mCenterY + tempH / 2, paint);
+        if (mCircleProgressDelegate.getEndPointHollowSize() > 0) {
+            canvas.drawCircle((float) x, (float) y,
+                    mCircleProgressDelegate.getEndPointHollowSize() / 2,
+                    mCircleProgressDelegate.getEndPointHollowPaint());
         }
-
-
     }
+
 
     //获取文字的宽度
     private float getTextWidth(Paint paint, String str) {

@@ -4,13 +4,18 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#000"
     android:gravity="center"
     android:orientation="horizontal"
     tools:context=".MainActivity">
 
-    <com.mitsuki.falldownview.PathTestView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+    <com.mitsuki.circleprogressview.CircleProgressView
+        android:layout_width="240dp"
+        android:layout_height="240dp"
+        app:board_circle_color="#D1E0E7"
+        app:board_circle_width="20dp"
+        app:end_point_hollow_size="8dp"
+        app:percent="90"
+        app:progress_circle_color="#4AC3FF"
+        app:progress_circle_width="20dp" />
 
 </LinearLayout>
