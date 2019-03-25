@@ -30,6 +30,9 @@ public class CircleExponentView extends View {
 
     private Paint paint;
 
+    //xml参数代理
+    private final CircleExponentDelegate mCircleExponentDelegate;
+
     /**********************************************************************************************/
     private int internalPadding = 32;
     private int progressWidth = 40;
@@ -43,6 +46,7 @@ public class CircleExponentView extends View {
 
     public CircleExponentView(Context context, AttributeSet attrs) {
         super(context, attrs);
+        mCircleExponentDelegate = new CircleExponentDelegate(context, attrs);
         init(context);
     }
 
