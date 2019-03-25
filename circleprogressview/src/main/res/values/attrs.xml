@@ -14,14 +14,18 @@
         <attr name="progress_circle_gradient_start_color" format="color" />
         <attr name="progress_circle_gradient_end_color" format="color" />
 
-
         <attr name="circle_padding" format="dimension" />
-        <attr name="percent" format="integer" />
+        <attr name="progress_percent" format="integer" />
 
         <attr name="end_point_hollow_size" format="dimension" />
     </declare-styleable>
 
     <declare-styleable name="CircleExponentView">
+        <attr name="background_color" format="color" />
+        <attr name="internal_padding" format="dimension" />
 
+        <attr name="progress_width" format="dimension"/>
+
+        <attr name="exponent_percent" format="integer" />
     </declare-styleable>
 </resources>

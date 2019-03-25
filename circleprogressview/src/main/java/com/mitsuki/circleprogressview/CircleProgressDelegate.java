@@ -47,7 +47,7 @@ public class CircleProgressDelegate {
         mProgressCircleEndColor = array.getColor(R.styleable.CircleProgressView_progress_circle_gradient_end_color, DEFAULT_COLOR);
 
         mCirclePadding = array.getDimension(R.styleable.CircleProgressView_circle_padding, 0);
-        percent = array.getInteger(R.styleable.CircleProgressView_percent, 0);
+        percent = array.getInteger(R.styleable.CircleProgressView_progress_percent, 0);
 
         mEndPointHollowSize = array.getDimension(R.styleable.CircleProgressView_end_point_hollow_size, 0);
 

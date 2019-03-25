@@ -16,19 +16,13 @@ import android.view.View;
 public class CircleExponentView extends View {
 
     private final int DEFAULT_SIZE = 60;
-    private final int[] colors = new int[]{
-            0XFF45C481, 0XFF45C481, 0XFFF2E11E, 0XFFF2831E, 0XFF9433C3, 0XFF8C254B, 0XFF8C254B};
-    private final float[] positions = new float[]{
-            0f, 0.2f, 0.4f, 0.5f, 0.65f, 0.80f, 0.9f
-    };
+
 
     //view 的大小
     private int width;
 
     private int mDrawCenterX;
     private int mDrawCenterY;
-
-    private Paint paint;
 
     //xml参数代理
     private final CircleExponentDelegate mCircleExponentDelegate;
@@ -51,7 +45,6 @@ public class CircleExponentView extends View {
     }
 
     private void init(Context context) {
-        paint = new Paint();
     }
 
     @Override
@@ -86,49 +79,35 @@ public class CircleExponentView extends View {
 
     //绘制白色底板
     private void onDrawBackGround(Canvas canvas) {
-        paint.reset();
-        paint.setStyle(Paint.Style.FILL);//设置填充样式
-        paint.setAntiAlias(true);//抗锯齿功能
-        paint.setColor(0xffffffff);
-        canvas.drawCircle(mDrawCenterX, mDrawCenterY, width / 2, paint);
+        canvas.drawCircle(mDrawCenterX, mDrawCenterY, width / 2, mCircleExponentDelegate.getBackGroundPaint());
     }
 
     //绘制色轮
     private void onDrawColorfulProgress(Canvas canvas) {
-        paint.reset();
-        paint.setStyle(Paint.Style.STROKE);//设置填充样式
-        paint.setAntiAlias(true);//抗锯齿功能
-        paint.setStrokeWidth(40);//设置画笔宽度
-        //设置笔刷的样式 Paint.Cap.Round ,Cap.SQUARE等分别为圆形、方形
-        paint.setStrokeCap(Paint.Cap.SQUARE);
-
-
-        SweepGradient sweepGradient = new SweepGradient(mDrawCenterX, mDrawCenterY, colors, positions);
-        Matrix matrix = new Matrix();
-        matrix.setRotate(90, mDrawCenterX, mDrawCenterY);//加上旋转还是很有必要的，每次最右边总是有一部分多余了,不太美观,也可以不加
-        sweepGradient.setLocalMatrix(matrix);
-        paint.setShader(sweepGradient);
-        RectF oval1 = new RectF(internalPadding + progressWidth / 2,
-                internalPadding * 3 / 2 + progressWidth / 2,
-                width - internalPadding - progressWidth / 2,
-                width - internalPadding / 2 - progressWidth / 2);
-        //        canvas.drawArc(oval1, 180, currentAngle, false, paintCurrent);//小弧形
+        RectF oval = new RectF(mCircleExponentDelegate.getInternalPadding() + mCircleExponentDelegate.getProgressWidth() / 2,
+                mCircleExponentDelegate.getInternalPadding() * 3 / 2 + mCircleExponentDelegate.getProgressWidth() / 2,
+                width - mCircleExponentDelegate.getInternalPadding() - mCircleExponentDelegate.getProgressWidth() / 2,
+                width - mCircleExponentDelegate.getInternalPadding() / 2 - mCircleExponentDelegate.getProgressWidth() / 2);
         //当前进度
-        canvas.drawArc(oval1, 148, 242, false, paint);
+        canvas.drawArc(oval, 148, 242, false, mCircleExponentDelegate.getProgressCirclePaint(mDrawCenterX, mDrawCenterY));
     }
 
     //绘制指示圆点
     private void onDrawProgressDirective(Canvas canvas) {
-        paint.reset();
-        paint.setStyle(Paint.Style.FILL);//设置填充样式
-        paint.setAntiAlias(true);//抗锯齿功能
-        paint.setColor(Color.GRAY);
+        float mCircleRegion = width - mCircleExponentDelegate.getInternalPadding() * 2 - mCircleExponentDelegate.getProgressWidth();
 
-        int mCircleRegion = width - internalPadding;
+        double angle = 240 * mCircleExponentDelegate.getPercent() / 100 + 240;
+        if (angle > 360) angle = angle - 360;
+        double x = (width / 2) + Math.cos(Math.toRadians(90 - angle)) * (mCircleRegion) / 2;
+        double y = (width / 2 + mCircleExponentDelegate.getInternalPadding() / 2) - Math.sin(Math.toRadians(90 - angle)) * (mCircleRegion) / 2;
+        canvas.drawCircle((float) x, (float) y, mCircleExponentDelegate.getProgressWidth(), mCircleExponentDelegate.getProgressDirectivePaint());
+    }
 
-        double angle = 240;
-        double x = (width / 2) + Math.cos(Math.toRadians(90 - angle)) * (mCircleRegion - 2 * progressWidth) / 2;
-        double y = (width / 2 + internalPadding / 2) - Math.sin(Math.toRadians(90 - angle)) * (mCircleRegion - 2 * progressWidth) / 2;
-        canvas.drawCircle((float) x, (float) y, progressWidth, paint);
+    public void setPercent(int value) {
+        if (value >= 0
+                && value <= 100) {
+            mCircleExponentDelegate.setPercent(value);
+            invalidate();
+        }
     }
 }
