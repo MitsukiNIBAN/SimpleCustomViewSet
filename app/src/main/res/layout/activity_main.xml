@@ -9,11 +9,5 @@
     android:background="#7c7c7c"
     tools:context=".MainActivity">
 
-    <com.mitsuki.circleprogressview.CircleExponentView
-        android:layout_width="240dp"
-        android:layout_height="wrap_content"
-        app:internal_padding="20dp"
-        app:progress_width="16dp"/>
-
 
 </LinearLayout>

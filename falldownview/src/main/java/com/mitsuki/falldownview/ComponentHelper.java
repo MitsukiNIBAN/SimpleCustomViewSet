@@ -13,7 +13,7 @@ public class ComponentHelper {
     private SparseArray<Bitmap> bitmapGroup;
     private ComponentPath componentPath;
 
-    public ComponentHelper(@ComponentType int type) {
+    public ComponentHelper(int type) {
         this.componentPath = PathFactory.newComponentPath(type);
         this.bitmapGroup = new SparseArray<>();
     }

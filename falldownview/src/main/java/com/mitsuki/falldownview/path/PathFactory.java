@@ -3,7 +3,7 @@ package com.mitsuki.falldownview.path;
 import com.mitsuki.falldownview.config.ComponentType;
 
 public class PathFactory {
-    public static ComponentPath newComponentPath(@ComponentType int type) {
+    public static ComponentPath newComponentPath(int type) {
         switch (type) {
             case ComponentType.SNOW:
                 return new SnowSample();

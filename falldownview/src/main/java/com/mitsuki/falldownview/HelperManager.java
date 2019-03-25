@@ -31,7 +31,7 @@ public class HelperManager {
         return this;
     }
 
-    public HelperManager initComponentHelper(@ComponentType int type) {
+    public HelperManager initComponentHelper(int type) {
         componentHelper = new ComponentHelper(type);
         componentHelper.setComponentSizeSet(24);
         return this;
