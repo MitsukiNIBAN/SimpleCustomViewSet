@@ -97,6 +97,7 @@ public class CircleProgressView extends View {
     }
 
     //绘制圆端点
+    //TODO:尝试用paint.setStrokeCap(Paint.Cap.ROUND)替换端点
     private void onDrawArcLineEndPoint(Canvas canvas) {
         float mEndPointOneX = width / 2;
         float mEndPointOneY = (height - mCircleRegion) / 2 + mCircleProgressDelegate.getProgressCircleWidth() / 2;
