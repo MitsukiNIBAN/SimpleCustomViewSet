@@ -13,8 +13,7 @@
         android:layout_width="240dp"
         android:layout_height="wrap_content"
         app:internal_padding="20dp"
-        app:progress_width="16dp"
-        />
+        app:progress_width="16dp"/>
 
 
 </LinearLayout>

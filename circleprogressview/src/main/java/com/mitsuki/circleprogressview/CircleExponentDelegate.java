@@ -82,38 +82,6 @@ public class CircleExponentDelegate {
         mPaint.setColor(Color.GRAY);
         return mPaint;
     }
-//
-//    /**
-//     * 圈俩端点的画笔
-//     *
-//     * @param isStarter 是否是线开始的端点
-//     * @return
-//     */
-//    public Paint getProgressEndPointPaint(boolean isStarter) {
-//        mPaint.reset();
-//        mPaint.setAntiAlias(true);
-//        mPaint.setStyle(Paint.Style.FILL);
-//        mPaint.setStrokeWidth(mProgressCircleWidth);
-//        if (mProgressCircleColorType == FILL) {
-//            mPaint.setColor(mProgressCircleColor);
-//        } else if (mProgressCircleColorType == GRADIENT) {
-//            mPaint.setColor(isStarter
-//                    ? mProgressCircleStartColor
-//                    : mProgressCircleEndColor);
-//        }
-//        return mPaint;
-//    }
-//
-//    public Paint getEndPointHollowPaint() {
-//        mPaint.reset();
-//        mPaint.setAntiAlias(true);
-//        mPaint.setStyle(Paint.Style.FILL);
-//        mPaint.setStrokeWidth(getEndPointHollowSize());
-//        mPaint.setColor(mBoardCircleColor);
-//        return mPaint;
-//    }
-//
-//
 
     /**********************************************************************************************/
     public float getInternalPadding() {
