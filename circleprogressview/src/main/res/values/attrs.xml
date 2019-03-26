@@ -24,8 +24,10 @@
         <attr name="background_color" format="color" />
         <attr name="internal_padding" format="dimension" />
 
-        <attr name="progress_width" format="dimension"/>
+        <attr name="progress_width" format="dimension" />
 
         <attr name="exponent_percent" format="integer" />
+
+        <attr name="slider_size" format="dimension" />
     </declare-styleable>
 </resources>

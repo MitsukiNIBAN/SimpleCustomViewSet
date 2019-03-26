@@ -1,6 +1,8 @@
 package com.mitsuki.circleprogressview;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.LinearGradient;
@@ -27,13 +29,9 @@ public class CircleExponentView extends View {
     //xml参数代理
     private final CircleExponentDelegate mCircleExponentDelegate;
 
-    /**********************************************************************************************/
-    private int internalPadding = 32;
-    private int progressWidth = 40;
+    private Bitmap slider;
 
     /**********************************************************************************************/
-
-
     public CircleExponentView(Context context) {
         this(context, null);
     }
@@ -100,7 +98,14 @@ public class CircleExponentView extends View {
         if (angle > 360) angle = angle - 360;
         double x = (width / 2) + Math.cos(Math.toRadians(90 - angle)) * (mCircleRegion) / 2;
         double y = (width / 2 + mCircleExponentDelegate.getInternalPadding() / 2) - Math.sin(Math.toRadians(90 - angle)) * (mCircleRegion) / 2;
-        canvas.drawCircle((float) x, (float) y, mCircleExponentDelegate.getProgressWidth(), mCircleExponentDelegate.getProgressDirectivePaint());
+//        canvas.drawCircle((float) x, (float) y, mCircleExponentDelegate.getProgressWidth(), mCircleExponentDelegate.getProgressDirectivePaint());
+
+        createSlider();
+        canvas.drawBitmap(slider,
+                new Rect(0, 0, slider.getWidth(), slider.getHeight()),
+                new Rect((int) (x - mCircleExponentDelegate.getSliderSize() / 2), (int) (y - mCircleExponentDelegate.getSliderSize() / 2),
+                        (int) (x + mCircleExponentDelegate.getSliderSize() / 2), (int) (y + mCircleExponentDelegate.getSliderSize() / 2)),
+                mCircleExponentDelegate.getProgressDirectivePaint());
     }
 
     public void setPercent(int value) {
@@ -109,5 +114,10 @@ public class CircleExponentView extends View {
             mCircleExponentDelegate.setPercent(value);
             invalidate();
         }
+    }
+
+    private void createSlider() {
+        if (slider == null)
+            slider = BitmapFactory.decodeResource(getContext().getResources(), R.mipmap.progress_slider);
     }
 }

@@ -26,6 +26,8 @@ public class CircleExponentDelegate {
     private float mInternalPadding;
     private float mProgressWidth;
 
+    private float mSliderSize;
+
     private int percent;
 
 
@@ -37,6 +39,8 @@ public class CircleExponentDelegate {
         mInternalPadding = array.getDimension(R.styleable.CircleExponentView_internal_padding, 0);
         mProgressWidth = array.getDimension(R.styleable.CircleExponentView_progress_width, 60);
         percent = array.getInteger(R.styleable.CircleExponentView_exponent_percent, 0);
+
+        mSliderSize = array.getDimension(R.styleable.CircleExponentView_slider_size, 60);
     }
 
     /**
@@ -79,7 +83,7 @@ public class CircleExponentDelegate {
         mPaint.reset();
         mPaint.setAntiAlias(true);
         mPaint.setStyle(Paint.Style.FILL);
-        mPaint.setColor(Color.GRAY);
+//        mPaint.setColor(Color.GRAY);
         return mPaint;
     }
 
@@ -94,6 +98,10 @@ public class CircleExponentDelegate {
 
     public float getPercent() {
         return percent;
+    }
+
+    public float getSliderSize() {
+        return mSliderSize;
     }
 
     /**********************************************************************************************/
