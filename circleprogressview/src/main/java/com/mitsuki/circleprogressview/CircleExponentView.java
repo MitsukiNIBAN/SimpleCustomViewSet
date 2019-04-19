@@ -13,6 +13,7 @@ import android.graphics.RectF;
 import android.graphics.Shader;
 import android.graphics.SweepGradient;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.View;
 
 public class CircleExponentView extends View {
@@ -82,25 +83,64 @@ public class CircleExponentView extends View {
 
     //绘制色轮
     private void onDrawColorfulProgress(Canvas canvas) {
-        RectF oval = new RectF(mCircleExponentDelegate.getInternalPadding() + mCircleExponentDelegate.getProgressWidth() / 2,
-                mCircleExponentDelegate.getInternalPadding() * 3 / 2 + mCircleExponentDelegate.getProgressWidth() / 2,
-                width - mCircleExponentDelegate.getInternalPadding() - mCircleExponentDelegate.getProgressWidth() / 2,
-                width - mCircleExponentDelegate.getInternalPadding() / 2 - mCircleExponentDelegate.getProgressWidth() / 2);
-        //当前进度
-        canvas.drawArc(oval, 148, 242, false, mCircleExponentDelegate.getProgressCirclePaint(mDrawCenterX, mDrawCenterY));
+        RectF oval;
+        if (mCircleExponentDelegate.isConcentric()) {
+            //同心
+            oval = new RectF(mCircleExponentDelegate.getInternalPadding() + mCircleExponentDelegate.getProgressWidth() / 2,
+                    mCircleExponentDelegate.getInternalPadding() + mCircleExponentDelegate.getProgressWidth() / 2,
+                    width - mCircleExponentDelegate.getInternalPadding() - mCircleExponentDelegate.getProgressWidth() / 2,
+                    width - mCircleExponentDelegate.getInternalPadding() - mCircleExponentDelegate.getProgressWidth() / 2);
+            float p = width / (width / 2 - mCircleExponentDelegate.getInternalPadding() - mCircleExponentDelegate.getProgressWidth()) / 4;
+            if (p >= 1) {
+                canvas.drawArc(oval, 90, 360, false, mCircleExponentDelegate.getProgressCirclePaint(mDrawCenterX, mDrawCenterY));
+            } else {
+                double degrees = Math.toDegrees(Math.acos(p));
+                canvas.drawArc(oval, (float) (90 + degrees), (float) (360 - degrees * 2), false, mCircleExponentDelegate.getProgressCirclePaint(mDrawCenterX, mDrawCenterY));
+            }
+        } else {
+            //非同心
+            oval = new RectF(mCircleExponentDelegate.getInternalPadding() + mCircleExponentDelegate.getProgressWidth() / 2,
+                    mCircleExponentDelegate.getInternalPadding() * 3 / 2 + mCircleExponentDelegate.getProgressWidth() / 2,
+                    width - mCircleExponentDelegate.getInternalPadding() - mCircleExponentDelegate.getProgressWidth() / 2,
+                    width - mCircleExponentDelegate.getInternalPadding() / 2 - mCircleExponentDelegate.getProgressWidth() / 2);
+            //渐变开始150°， 转240°，为保证不会出现末端的问题，±1°
+            canvas.drawArc(oval, 149, 242, false, mCircleExponentDelegate.getProgressCirclePaint(mDrawCenterX, mDrawCenterY));
+        }
+
     }
 
     //绘制指示圆点
     private void onDrawProgressDirective(Canvas canvas) {
+        createSlider();
         float mCircleRegion = width - mCircleExponentDelegate.getInternalPadding() * 2 - mCircleExponentDelegate.getProgressWidth();
 
-        double angle = 240 * mCircleExponentDelegate.getPercent() / 100 + 240;
-        if (angle > 360) angle = angle - 360;
-        double x = (width / 2) + Math.cos(Math.toRadians(90 - angle)) * (mCircleRegion) / 2;
-        double y = (width / 2 + mCircleExponentDelegate.getInternalPadding() / 2) - Math.sin(Math.toRadians(90 - angle)) * (mCircleRegion) / 2;
-//        canvas.drawCircle((float) x, (float) y, mCircleExponentDelegate.getProgressWidth(), mCircleExponentDelegate.getProgressDirectivePaint());
+        double x;
+        double y;
+        //angle = 总行程度 * 进度 + 起点
+        if (mCircleExponentDelegate.isConcentric()) {
+            double angle;
+            float p = width / (width / 2 - mCircleExponentDelegate.getInternalPadding() - mCircleExponentDelegate.getProgressWidth()) / 4;
+            if (p >= 1) {
+                angle = 360 * mCircleExponentDelegate.getPercent() / 100 + 180;
+            } else {
+                float ra = (width / 4 - mCircleExponentDelegate.getSliderSize() / 2) / (width / 2 - mCircleExponentDelegate.getInternalPadding() - mCircleExponentDelegate.getProgressWidth() / 2);
+                double de = Math.toDegrees(Math.acos(ra));
+                angle = (360 - de * 2) * mCircleExponentDelegate.getPercent() / 100 + 240 + (de - 60);
+            }
 
-        createSlider();
+            if (angle > 360) angle = angle - 360;
+            x = (width / 2) + Math.cos(Math.toRadians(90 - angle)) * (mCircleRegion) / 2;
+            y = (width / 2) - Math.sin(Math.toRadians(90 - angle)) * (mCircleRegion) / 2;
+        } else {
+            //计算图的大小，因为按钮有阴影，所以导致无法触底
+            float ra = (width / 4 - mCircleExponentDelegate.getSliderSize() / 2) / width * 2;
+            double de = Math.toDegrees(Math.acos(ra));
+            double angle = (360 - de * 2) * mCircleExponentDelegate.getPercent() / 100 + 240 + (de - 60);
+            if (angle > 360) angle = angle - 360;
+            x = (width / 2) + Math.cos(Math.toRadians(90 - angle)) * (mCircleRegion) / 2;
+            y = (width / 2 + mCircleExponentDelegate.getInternalPadding() / 2) - Math.sin(Math.toRadians(90 - angle)) * (mCircleRegion) / 2;
+        }
+
         canvas.drawBitmap(slider,
                 new Rect(0, 0, slider.getWidth(), slider.getHeight()),
                 new Rect((int) (x - mCircleExponentDelegate.getSliderSize() / 2), (int) (y - mCircleExponentDelegate.getSliderSize() / 2),

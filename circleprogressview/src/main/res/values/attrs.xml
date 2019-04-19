@@ -29,5 +29,6 @@
         <attr name="exponent_percent" format="integer" />
 
         <attr name="slider_size" format="dimension" />
+        <attr name="concentric" format="boolean" />
     </declare-styleable>
 </resources>

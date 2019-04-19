@@ -30,6 +30,8 @@ public class CircleExponentDelegate {
 
     private int percent;
 
+    private boolean concentric;
+
 
     public CircleExponentDelegate(Context context, AttributeSet attrs) {
         mPaint = new Paint();
@@ -41,6 +43,8 @@ public class CircleExponentDelegate {
         percent = array.getInteger(R.styleable.CircleExponentView_exponent_percent, 0);
 
         mSliderSize = array.getDimension(R.styleable.CircleExponentView_slider_size, 60);
+
+        concentric = array.getBoolean(R.styleable.CircleExponentView_concentric, false);
     }
 
     /**
@@ -102,6 +106,10 @@ public class CircleExponentDelegate {
 
     public float getSliderSize() {
         return mSliderSize;
+    }
+
+    public boolean isConcentric() {
+        return concentric;
     }
 
     /**********************************************************************************************/

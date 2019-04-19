@@ -4,9 +4,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#7c7c7c"
     android:gravity="center"
     android:orientation="horizontal"
-    android:background="#7c7c7c"
     tools:context=".MainActivity">
+
+    <com.mitsuki.circleprogressview.CircleExponentView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:concentric="false" />
 
 </LinearLayout>
