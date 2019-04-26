@@ -34,4 +34,5 @@ dependencies {
     implementation project(':circleprogressview')
     implementation project(':variinstructtextview')
     implementation project(':falldownview')
+    implementation project(':chowder')
 }

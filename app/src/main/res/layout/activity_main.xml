@@ -9,9 +9,14 @@
     android:orientation="horizontal"
     tools:context=".MainActivity">
 
-    <com.mitsuki.circleprogressview.CircleExponentView
+
+    <com.mitsuki.chowder.ScanEffect
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:concentric="false" />
+        android:layout_height="match_parent"
+        app:effect_color="#ffffff"
+        app:effect_direction="top"
+        app:grid_size="40dp"
+        app:scan_width="48dp"
+        app:speed="10" />
 
 </LinearLayout>

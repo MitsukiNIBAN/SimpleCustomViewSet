@@ -5,6 +5,7 @@
       <module fileurl="file://$PROJECT_DIR$/CustomViewDemo.iml" filepath="$PROJECT_DIR$/CustomViewDemo.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
       <module fileurl="file://$PROJECT_DIR$/chartview/chartview.iml" filepath="$PROJECT_DIR$/chartview/chartview.iml" />
+      <module fileurl="file://$PROJECT_DIR$/chowder/chowder.iml" filepath="$PROJECT_DIR$/chowder/chowder.iml" />
       <module fileurl="file://$PROJECT_DIR$/circleprogressview/circleprogressview.iml" filepath="$PROJECT_DIR$/circleprogressview/circleprogressview.iml" />
       <module fileurl="file://$PROJECT_DIR$/cranedemonstration/cranedemonstration.iml" filepath="$PROJECT_DIR$/cranedemonstration/cranedemonstration.iml" />
       <module fileurl="file://$PROJECT_DIR$/falldownview/falldownview.iml" filepath="$PROJECT_DIR$/falldownview/falldownview.iml" />
