@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <FrameLayout
+        android:layout_width="70dp"
+        android:layout_height="70dp">
+
+        <com.mitsuki.chowder.ScanEffect
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            app:effect_direction="bottom"
+            app:grid_size="8dp"
+            app:scan_width="24dp"
+            app:speed="2" />
+    </FrameLayout>
+
+</FrameLayout>

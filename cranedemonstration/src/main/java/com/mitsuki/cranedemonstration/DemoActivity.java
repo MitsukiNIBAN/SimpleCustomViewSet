@@ -1,6 +1,7 @@
-//用法示例
+////用法示例
 //package com.mitsuki.cranedemonstration;
 //
+//import android.app.Activity;
 //import android.graphics.Canvas;
 //import android.graphics.Color;
 //import android.graphics.PixelFormat;
@@ -8,7 +9,6 @@
 //import android.os.Bundle;
 //import android.os.Handler;
 //import android.os.HandlerThread;
-//import android.support.v7.app.AppCompatActivity;
 //import android.util.Log;
 //import android.view.SurfaceHolder;
 //import android.view.SurfaceView;
@@ -16,11 +16,13 @@
 //import android.widget.EditText;
 //import android.widget.Switch;
 //
-//public class DemoActivity extends AppCompatActivity implements Runnable {
+//import com.mitsuki.cranedemonstration.R;
+//
+//public class DemoActivity extends Activity implements Runnable {
 //
 //    private SurfaceView surfaceView;
 //    private Canvas canvas;
-//    private TowerHelper towerHelper;
+//    private CraneHelper towerHelper;
 //    private SurfaceHolder surfaceHolder;
 //
 //    HandlerThread handlerThread;

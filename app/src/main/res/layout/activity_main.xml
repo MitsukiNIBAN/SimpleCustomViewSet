@@ -4,19 +4,36 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#7c7c7c"
-    android:gravity="center"
-    android:orientation="horizontal"
+    android:background="#ebebeb"
+    android:orientation="vertical"
     tools:context=".MainActivity">
 
-
-    <com.mitsuki.chowder.ScanEffect
+    <SurfaceView
+        android:id="@+id/surface"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:effect_color="#ffffff"
-        app:effect_direction="top"
-        app:grid_size="40dp"
-        app:scan_width="48dp"
-        app:speed="10" />
+        android:layout_height="280dp" />
 
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:onClick="leftDown"
+        android:text="1" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:onClick="rightUp"
+        android:text="2" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:onClick="leftUp"
+        android:text="3" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:onClick="rightDown"
+        android:text="4" />
 </LinearLayout>

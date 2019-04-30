@@ -35,4 +35,5 @@ dependencies {
     implementation project(':variinstructtextview')
     implementation project(':falldownview')
     implementation project(':chowder')
+    implementation project(':cranedemonstration')
 }
